@@ -1,0 +1,88 @@
+<?php
+class db {
+	private $connection;
+	public $resource;
+	private $db;
+	function __construct($db = "NSLWebEngineDataBase") {
+		$this->connection = new MongoClient();
+		$this->db = $this->connection->selectDB($db);
+	}
+	function __get($name) {
+		if(isset($this->db->$name))
+			return $this->db->$name;
+		return $this->db->createCollection($name);
+	}
+	function __call($fun, $args) {
+		list($function, $table) = explode("…", strtolower(preg_replace("/([a-z])([A-Z])/", "$1…$2", $fun)));
+		if(substr($table, -1) != "s")
+			$table .= "s";
+		switch($function) {
+			case "select":
+			case "find":
+			case "search":
+				$cursor = new cursor();
+				$cursor->obj = ($this->db->$table->find($args[0]));
+				return $cursor;
+			break;
+			case "count":
+			case "num":
+				return $this->db->$table->count($args[0]);
+			break;
+			case "insert":
+			case "new":
+			case "ins":
+			case "add":
+				return $this->db->$table->insert($args[0]);
+			break;
+			case "update":
+			case "edit":
+			case "modify":
+				return $this->db->$table->update($args[0], $args[1]);
+			break;
+			case "delete":
+			case "remove":
+			case "del":
+			case "kill":
+			case "destory":
+			case "rem":
+			case "rm":
+				return $this->db->$table->remove($args[0]);
+			break;
+		}
+	}
+	function hash($password) {
+		return hash("whirlpool", 
+			base64_encode(
+				hash(
+					"gost", 
+					base64_encode(
+						md5(
+							$password.strlen($password)
+						).strlen($password)
+					)
+				)
+			)
+		);
+	}
+}
+class cursor {
+	public $obj;
+	function sort($arr = []) {
+		$this->obj->sort($arr);
+		return $this;
+	}
+	function count() {
+		return count(iterator_to_array($this->obj));
+	}
+	function fetch() {
+		$obj = iterator_to_array($this->obj);
+		if($this->count() == 1) {
+			reset($obj);
+			return lib::toObject($obj[key($obj)]);
+		}
+		return lib::toObject($obj);
+	}
+	function afetch() {
+		return iterator_to_array($this->obj);
+	}
+}

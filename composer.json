@@ -1,0 +1,17 @@
+{
+    "name": "newsocialife/website-engine",
+    "description": "The innovative website engine of New Social Life",
+    "require": {
+        "twig/twig": "1.12.*@dev",
+        "klein/klein": "dev-master",
+        "monolog/monolog": "1.0.*"
+    },
+    "license": "Copyright Danny Morabito, All right reserved",
+    "authors": [
+        {
+            "name": "Danny Morabito",
+            "email": "staff@newsocialife.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}

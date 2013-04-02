@@ -6,8 +6,6 @@ This engine was originally developed for the new version of New Social Life, whi
 ## Getting Started
 
 A simple usage of the library would be something like this: 
-:::php
-	
 
 	function test(string $a, number $b, mixed $c) {
 		if(is_array($c))
@@ -29,10 +27,10 @@ A simple usage of the library would be something like this:
 	test2(5, false); // returns false
 	test2("hello", false); // THIS ONE THROWS A PHP ERROR
 
-	
 Of course this is just one of the thousand features you can use with my library.
 
 
 ## License
 Developer: Danny Morabito
 You can use this in your projects but the developers' names HAVE to be in the comment of every file.
+This library uses some things like twig and klein.php, i didn't develop them, so the credits are to their, not mine.
