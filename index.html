@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Nsl-website-engine by NslWebsiteEngine</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Nsl-website-engine</h1>
+        <h2>The ultimative newsocialife.com website engine. Look the examples to see how it's simple to use it.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>NSL Website Engine</h1>
+
+<p>This engine was originally developed for the new version of New Social Life, which is still in development :). This engine is really powerful, something that you have to try.</p>
+
+<h2>Getting Started</h2>
+
+<p>A simple usage of the library would be something like this: </p>
+
+<div class="highlight"><pre><span class="k">function</span> <span class="nf">test</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$a</span><span class="p">,</span> <span class="nx">number</span> <span class="nv">$b</span><span class="p">,</span> <span class="nx">mixed</span> <span class="nv">$c</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nb">is_array</span><span class="p">(</span><span class="nv">$c</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">];</span>
+    <span class="k">else</span>
+        <span class="k">return</span> <span class="o">++</span><span class="nv">$number</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">function</span> <span class="nf">test2</span><span class="p">(</span><span class="nx">number</span> <span class="nv">$a</span><span class="p">,</span> <span class="nx">boolean</span> <span class="nv">$b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nv">$a</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nv">$b</span><span class="p">;</span>
+    <span class="k">return</span> <span class="k">false</span><span class="p">;</span> 
+<span class="p">}</span>
+<span class="nx">test</span><span class="p">(</span><span class="s2">"Hello"</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="p">[]);</span> <span class="c1">// returns an array with an element a</span>
+<span class="nx">test</span><span class="p">(</span><span class="s2">"Hello"</span><span class="p">,</span> <span class="mf">12.1</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span> <span class="c1">// return 13.1</span>
+<span class="nx">test</span><span class="p">(</span><span class="s2">"Hello"</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span> <span class="c1">// return 13.0</span>
+<span class="nx">test</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="s2">"Hello"</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span> <span class="c1">// THIS ONE THROWS A PHP ERROR</span>
+<span class="nx">test2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span> <span class="c1">// returns false</span>
+<span class="nx">test2</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span> <span class="c1">// return true</span>
+<span class="nx">test2</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span> <span class="c1">// returns false</span>
+<span class="nx">test2</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span> <span class="c1">// THIS ONE THROWS A PHP ERROR</span>
+</pre></div>
+
+<p>Of course this is just one of the thousand features you can use with my library.</p>
+
+<h2>License</h2>
+
+<p>Developer: Danny Morabito
+You can use this in your projects but the developers' names HAVE to be in the comment of every file.
+This library uses some things like twig and klein.php, i didn't develop them, so the credits are to their, not mine.</p>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
