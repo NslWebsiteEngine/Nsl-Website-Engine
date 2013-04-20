@@ -3,7 +3,7 @@
     "description": "The innovative website engine of New Social Life",
     "require": {
         "twig/twig": "1.12.*@dev",
-        "klein/klein": "dev-master",
+        "klein/klein": "v1.1.0",
         "monolog/monolog": "1.0.*"
     },
     "license": "BSD",
