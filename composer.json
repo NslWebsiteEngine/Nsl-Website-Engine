@@ -6,7 +6,7 @@
         "klein/klein": "dev-master",
         "monolog/monolog": "1.0.*"
     },
-    "license": "Copyright Danny Morabito, All right reserved",
+    "license": "BSD",
     "authors": [
         {
             "name": "Danny Morabito",
