@@ -1,6 +1,7 @@
 {
     "name": "newsocialife/website-engine",
     "description": "The innovative website engine of New Social Life",
+    "version": "1.0.0b",
     "require": {
         "twig/twig": "1.12.*@dev",
         "klein/klein": "v1.1.0",
@@ -15,7 +16,6 @@
         }
     ],
     "minimum-stability": "stable",
-    "version": "1.0.0",
     "support": {
         "email": "WebsiteEngine@newsocialife.com"   
     }
