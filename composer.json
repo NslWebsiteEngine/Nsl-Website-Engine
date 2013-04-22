@@ -1,6 +1,7 @@
 {
     "name": "newsocialife/website-engine",
     "description": "The ultimative website engine of New Social Life, you should try it",
+    "version": "1.0.0", 
     "require": {
         "twig/twig": "1.12.*@dev",
         "monolog/monolog": "1.0.*",
