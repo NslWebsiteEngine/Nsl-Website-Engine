@@ -13,5 +13,8 @@
             "email": "staff@newsocialife.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "autoload": {
+      "files": ["klein.php"]
+   },
 }
