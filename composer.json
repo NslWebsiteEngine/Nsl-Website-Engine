@@ -17,5 +17,10 @@
     ],
     "support": {
         "email": "website-engine@newsocialife.com"
+    },
+    "autoload": {
+        "files": [
+            "lib.php"    
+        ]
     }
 }
