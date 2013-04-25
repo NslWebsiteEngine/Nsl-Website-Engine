@@ -11,7 +11,7 @@ class lib {
 	function __get($name) {
 		if($name != "__removed")
 			if(!isset($this->$name))
-				die("NSL ERROR: Class {$name} isn't loaded");
+				$this->trigger_error("Class {$name} isn't loaded");
 	}
 	function add($protocols) {
 		if(is_array($protocols)) {
@@ -31,9 +31,9 @@ class lib {
 	}
 	function destroy($protocol) {
 		if(isset($this->__removed[$protocol]))
-			die("NSL ERROR: Protocol {$protocol} is already unset");
+			$this->trigger_error("Protocol {$protocol} is already unset");
 		if(!isset($this->$protocol))
-			die("NSL ERROR: The protocol {$protocol} isn't loaded");
+			$this->trigger_error("NSL ERROR: The protocol {$protocol} isn't loaded");
 		$removed = $this->__removed;
 		$removed[$protocol] = $this->$protocol;
 		$this->__removed = $removed;
@@ -46,6 +46,9 @@ class lib {
 			$this->__keywords_counter__ += strlen($k);
 		}
 		return dechex($this->__keywords__[$k]);
+	}
+	function json_decode_file($file) {
+		return json_decode(file_get_contents("languages/{$tmp}.json"));
 	}
 	static function toObject($array) {
 		$obj = new stdClass();
@@ -61,6 +64,9 @@ class lib {
 		else
 			return $d;
 	}
+	function trigger_error($error) {
+		$this->trigger_error("{$error}");
+	}
 	function _add($protocol) {
 		$protocol = strtolower($protocol);
 		if(!isset($this->$protocol)) {
@@ -73,8 +79,8 @@ class lib {
 				if(file_exists($name))
 					include_once $name;
 				else
-					die("NSL ERROR: Unable to find {$protocol} class.");
-				$this->$protocol = new $protocol;
+					$this->trigger_error("Unable to find {$protocol} class.");
+				$this->$protocol = new $protocol($this);
 				if(isset($this->$protocol->__requirements)) {
 					foreach($this->$protocol->__requirements as $k => $v)
 						$this->add($v);
