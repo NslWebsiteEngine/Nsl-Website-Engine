@@ -51,7 +51,10 @@ class db {
 		}
 	}
 	function hash($password) {
-		return hash("whirlpool", base64_encode(hash("gost", base64_encode(md5($password.strlen($password)).strlen($password)))));
+		return hash("whirlpool", base64_encode(hash("gost",base64_encode(md5($password.strlen($password)).strlen($password)))));
+	}
+	function salthash($salt, $password) {
+		return base64_encode($this->hash($salt.$password)).base64_encode($this->hash($password.$salt)).base64_encode($this->hash($salt.$password.$salt));
 	}
 }
 class cursor {
