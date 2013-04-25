@@ -46,8 +46,7 @@
 
 <h3>Router</h3>
 
-<p>The NSL Website Engine has a fantastic router (currently based on klein.php but we are working on removing it). The router supports all the major http router requests like: GET, POST, PUT, DELETE.
-Using the router is really simple, just include the router protocol:</p>
+<p>The NSL Website Engine has a fantastic router that you must see. The router supports all the major http router requests like: GET, POST, PUT, DELETE. It supports even routes with Regular expressions and want to ear the new cool thing? You can specify a name for those. Think i'm trolling you? Look the examples. </p>
 
 <div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s2">"router"</span><span class="p">);</span>
@@ -57,19 +56,22 @@ Using the router is really simple, just include the router protocol:</p>
 
 <div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s2">"router"</span><span class="p">);</span>
-<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span> <span class="c1">//the initial / is added automatically if there isn't one</span>
    <span class="k">echo</span> <span class="s2">"I GOT /"</span><span class="p">;</span>
 <span class="p">});</span>
-<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s2">"/friend"</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s2">"friend"</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span> <span class="c1">//get friend</span>
    <span class="k">echo</span> <span class="s2">"I GOT /friend"</span><span class="p">;</span>
 <span class="p">});</span>
-<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="s2">"/friend"</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="s2">"friend"</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span> <span class="c1">//post friend</span>
    <span class="k">echo</span> <span class="s2">"I GOT /friend from POST"</span><span class="p">;</span>
 <span class="p">});</span>
-<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">all</span><span class="p">(</span><span class="s2">"404"</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span> 
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="s2">"friend/(\w+)"</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$friend</span><span class="p">)</span> <span class="p">{</span> <span class="c1">//we gave the (\w+) regex the name $friend, nice uh?</span>
+   <span class="k">echo</span> <span class="s2">"Hello my friend, your name is </span><span class="si">{</span><span class="nv">$friend</span><span class="si">}</span><span class="s2">, right?"</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">all</span><span class="p">(</span><span class="s2">"404"</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span> <span class="c1">//yes, this is the response for a 404</span>
    <span class="k">echo</span> <span class="s2">"Oops, i don't know what you've requested"</span><span class="p">;</span>
 <span class="p">});</span>
-<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">setUrl</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]);</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">setUrl</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]);</span> <span class="c1">//You must insert this for compatibility things, we are working on this</span>
 <span class="c1">// and so on for all the methods.</span>
 </pre></div>
 
