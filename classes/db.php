@@ -3,7 +3,7 @@ class db {
 	private $connection;
 	public $resource;
 	private $db;
-	function __construct($db = "NSLWebEngineDataBase") {
+	function __construct($main, $db = "NSLWebEngineDataBase") {
 		$this->connection = new MongoClient();
 		$this->db = $this->connection->selectDB($db);
 	}
@@ -51,18 +51,7 @@ class db {
 		}
 	}
 	function hash($password) {
-		return hash("whirlpool", 
-			base64_encode(
-				hash(
-					"gost", 
-					base64_encode(
-						md5(
-							$password.strlen($password)
-						).strlen($password)
-					)
-				)
-			)
-		);
+		return hash("whirlpool", base64_encode(hash("gost", base64_encode(md5($password.strlen($password)).strlen($password)))));
 	}
 }
 class cursor {
