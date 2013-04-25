@@ -1,42 +1,97 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
     <title>Nsl-website-engine by NslWebsiteEngine</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
-
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <header>
-      <div class="container">
-        <h1>Nsl-website-engine</h1>
-        <h2>The ultimative newsocialife.com website engine. Look the examples to see how it's simple to use it.</h2>
+    <div class="wrapper">
 
-        <section id="downloads">
-          <a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+      <section>
+        <div id="title">
+          <h1>Nsl-website-engine</h1>
+          <p>The ultimative newsocialife.com website engine. Look the examples to see how it's simple to use it.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/NslWebsiteEngine">NslWebsiteEngine</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
 
-    <div class="container">
-      <section id="main_content">
         <h1>NSL Website Engine</h1>
 
 <p>This engine was originally developed for the new version of New Social Life, which is still in development :). This engine is really powerful, something that you have to try.</p>
 
-<h2>Getting Started</h2>
+<h2>Features:</h2>
 
-<p>A simple usage of the library would be something like this: </p>
+<h3>Router</h3>
 
-<div class="highlight"><pre><span class="k">function</span> <span class="nf">test</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$a</span><span class="p">,</span> <span class="nx">number</span> <span class="nv">$b</span><span class="p">,</span> <span class="nx">mixed</span> <span class="nv">$c</span><span class="p">)</span> <span class="p">{</span>
+<p>The NSL Website Engine has a fantastic router (currently based on klein.php but we are working on removing it). The router supports all the major http router requests like: GET, POST, PUT, DELETE.
+Using the router is really simple, just include the router protocol:</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s2">"router"</span><span class="p">);</span>
+</pre></div>
+
+<p>And use it with the super intuitive class structure: </p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s2">"router"</span><span class="p">);</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="k">echo</span> <span class="s2">"I GOT /"</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s2">"/friend"</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="k">echo</span> <span class="s2">"I GOT /friend"</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">(</span><span class="s2">"/friend"</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="k">echo</span> <span class="s2">"I GOT /friend from POST"</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">all</span><span class="p">(</span><span class="s2">"404"</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span> 
+   <span class="k">echo</span> <span class="s2">"Oops, i don't know what you've requested"</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">setUrl</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">"url"</span><span class="p">]);</span>
+<span class="c1">// and so on for all the methods.</span>
+</pre></div>
+
+<p>Attention: the router requires a change in the server configuration, otherwhise you have to input the files in the query string, like index.php?url=/</p>
+
+<p>A proper configuration for Apache is the .httaccess:  </p>
+
+<pre><code>RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
+</code></pre>
+
+<p>For help in the configuration don't hesitate to make an issue containing your http server name.</p>
+
+<h3>Function typizer</h3>
+
+<p>The innovative function typzer allows you to use types in functions, just like in C</p>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="k">function</span> <span class="nf">test</span><span class="p">(</span><span class="nx">string</span> <span class="nv">$a</span><span class="p">,</span> <span class="nx">number</span> <span class="nv">$b</span><span class="p">,</span> <span class="nx">mixed</span> <span class="nv">$c</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span><span class="p">(</span><span class="nb">is_array</span><span class="p">(</span><span class="nv">$c</span><span class="p">))</span>
         <span class="k">return</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">];</span>
     <span class="k">else</span>
@@ -57,7 +112,7 @@
 <span class="nx">test2</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span> <span class="c1">// THIS ONE THROWS A PHP ERROR</span>
 </pre></div>
 
-<p>Of course this is just one of the thousand features you can use with my library.</p>
+<p>AND EVEN MORE</p>
 
 <h2>License</h2>
 
@@ -65,8 +120,9 @@
 You can use this in your projects but the developers' names HAVE to be in the comment of every file.
 This library uses some things like twig and klein.php, i didn't develop them, so the credits are to their, not mine.</p>
       </section>
-    </div>
 
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
