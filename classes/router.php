@@ -7,7 +7,7 @@ class router {
 			$this->routes["/404"] = [$method, $function];
 		$path = "/".str_replace('/', '\/', $path)."/";
 		$this->routes[$path] = [$method, $function];
-		return respond($method, "/".$path, $function);
+		return $this->routes;
 	}
 	function get($path, $function) {
 		return $this->route("GET", $path, $function);
