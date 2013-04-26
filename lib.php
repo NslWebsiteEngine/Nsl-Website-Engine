@@ -65,7 +65,7 @@ class lib {
 			return $d;
 	}
 	function trigger_error($error) {
-		$this->trigger_error("{$error}");
+		die("NSL ERROR: {$error}");
 	}
 	function _add($protocol) {
 		$protocol = strtolower($protocol);
