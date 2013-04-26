@@ -42,6 +42,9 @@ class router {
 				echo "The requested page could not be found";
 			}];
 		$url = isset($this->url) ? $this->url : "/";
+		uksort($this->routes, function($a, $b) {
+			return strlen($a) > strlen($b) ? $a : $b;
+		});
 		foreach($this->routes as $pattern => $args) {
 			if(preg_match($pattern, $url, $params)) {
 				if(strtoupper($args[0]) == strtoupper($this->getMethod()) || strtoupper($args[0]) == "ALL") {
