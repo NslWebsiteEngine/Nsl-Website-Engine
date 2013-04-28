@@ -48,7 +48,7 @@ class lib {
 		return dechex($this->__keywords__[$k]);
 	}
 	function json_decode_file($file) {
-		return json_decode(file_get_contents("languages/{$tmp}.json"));
+		return json_decode(file_get_contents("{$file}"));
 	}
 	static function toObject($array) {
 		$obj = new stdClass();
