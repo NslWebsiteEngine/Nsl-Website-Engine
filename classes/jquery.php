@@ -1,5 +1,5 @@
 <?php
-class jQuery {
+class jquery {
 	function __construct() {
 		if(!file_exists("jquery.js"))
 			file_put_contents("jquery.js", fopen("http://code.jquery.com/jquery-latest.min.js", "r"));
