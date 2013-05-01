@@ -20,11 +20,11 @@ class must {
 			};
 		if(is_array($params)) {
 			foreach($params as $param) {
-				if(!isset($arr[$param]))
+				if(!isset($arr[$param]) || strlen($arr[$param]) < 1)
 					$callback($param);
 			}
 		}else
-			if(!isset($arr[$params]))
+			if(!isset($arr[$params]) || strlen($arr[$params]) < 1)
 				$callback($params);
 	}
 }
