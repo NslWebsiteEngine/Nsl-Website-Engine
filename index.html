@@ -88,6 +88,56 @@ RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
 
 <p>For help in the configuration don't hesitate to make an issue containing your http server name.</p>
 
+<p>Ever dreamed to have a class that allows you to check if some GET parameters are set without doing some stupid if checks that takes really much characters? Well the Must class in the Website Engine is for you!</p>
+
+<h3>Must Fields</h3>
+
+<h4>GET</h4>
+
+<p>Let we suppose your user HAS to fill some get fields, name and email, if the user doesn't fill something he will be noticed.</p>
+
+<pre><code>&lt;?php
+$lib-&gt;add("must");
+$lib-&gt;must-&gt;get(["name", "email"], function() {
+    echo "Some fields aren't filled in";
+});
+</code></pre>
+
+<p>And yes this looks prettier than: </p>
+
+<pre><code>&lt;?php
+if(!isset($_GET["name"]) || isset($_GET["email"]))
+   echo "Some fields aren't filled in";
+</code></pre>
+
+<p>Isn't it?</p>
+
+<h4>POST</h4>
+
+<p>The same thing can be done with POST</p>
+
+<pre><code>&lt;?php
+$lib-&gt;add("must");
+$lib-&gt;must-&gt;post(["name", "email"], function() {
+    echo "Some fields aren't filled in";
+});
+</code></pre>
+
+<p>Works TOO :)</p>
+
+<h4>Works for anything</h4>
+
+<p>It works for about anything, even for your own arrays, like this:</p>
+
+<pre><code>&lt;?php
+$lib-&gt;add("must");
+$lib-&gt;must-&gt;handle($myarr, ["elementx", "elementy"], function() {
+    echo "Some elements aren't set in the array \$myarr...";
+});
+</code></pre>
+
+<p>Yep, it works </p>
+
 <h3>Function typizer</h3>
 
 <p>The innovative function typzer allows you to use types in functions, just like in C</p>
