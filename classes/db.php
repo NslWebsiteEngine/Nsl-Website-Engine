@@ -50,6 +50,11 @@ class db {
 			break;
 		}
 	}
+	function usedb($db) {
+		$this->connection = $this->db = null; // Full Reset
+		$this->connection = new MongoClient();
+		$this->db = new $this->connection->selectDB($db);
+	}
 	function hash($password) {
 		return hash("whirlpool", base64_encode(hash("gost",base64_encode(md5($password.strlen($password)).strlen($password)))));
 	}
