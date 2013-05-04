@@ -3,6 +3,7 @@ class lib {
 	protected $__keywords__;
 	protected $__keywords_counter__ = 0xF0;
 	protected $__removed = [];
+	protected $pluginspath = "classes/";
 	function __construct() {
 		$this->keyword("more");
 		$this->keyword("ok");
@@ -22,6 +23,11 @@ class lib {
 		}elseif(is_string($protocols))
 			return $this->_add($protocols);
 		return false;
+	}
+	function setpluginspath($path) {
+		if(substr($path, -1) != "/")
+			$path .= "/";
+		$this->pluginspath = $path;
 	}
 	function set($protocol) { return $this->add($protocol); }
 	function using($protocol) { return $this->add($protocol); }
@@ -75,7 +81,7 @@ class lib {
 				unset($this->__removed[$protocol]);
 				return $this->keyword("ok");
 			} else {
-				$name = "classes/".strtolower($protocol).".php";
+				$name = $this->pluginspath.strtolower($protocol).".php";
 				if(file_exists($name))
 					include_once $name;
 				else
