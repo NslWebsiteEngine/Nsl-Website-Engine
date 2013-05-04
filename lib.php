@@ -27,7 +27,10 @@ class lib {
 	function setpluginspath($path) {
 		if(substr($path, -1) != "/")
 			$path .= "/";
+		if(!is_dir($path))
+			$path = "classes/";
 		$this->pluginspath = $path;
+		return $path;
 	}
 	function set($protocol) { return $this->add($protocol); }
 	function using($protocol) { return $this->add($protocol); }
