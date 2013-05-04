@@ -42,7 +42,7 @@ class lib {
 		if(isset($this->__removed[$protocol]))
 			$this->trigger_error("Protocol {$protocol} is already unset");
 		if(!isset($this->$protocol))
-			$this->trigger_error("NSL ERROR: The protocol {$protocol} isn't loaded");
+			$this->trigger_error("The protocol {$protocol} isn't loaded");
 		$removed = $this->__removed;
 		$removed[$protocol] = $this->$protocol;
 		$this->__removed = $removed;
