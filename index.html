@@ -86,19 +86,19 @@ RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
 
 <p>Let we suppose your user HAS to fill some get fields, name and email, if the user doesn't fill something he will be noticed.</p>
 
-<pre><code>&lt;?php
-$lib-&gt;add("must");
-$lib-&gt;must-&gt;get(["name", "email"], function() {
-    echo "Some fields aren't filled in";
-});
-</code></pre>
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s2">"must"</span><span class="p">);</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">must</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">([</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"email"</span><span class="p">],</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">"Some fields aren't filled in"</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
 
 <p>And yes this looks prettier than: </p>
 
-<pre><code>&lt;?php
-if(!isset($_GET["name"]) || isset($_GET["email"]))
-   echo "Some fields aren't filled in";
-</code></pre>
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">"name"</span><span class="p">])</span> <span class="o">||</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s2">"email"</span><span class="p">]))</span>
+   <span class="k">echo</span> <span class="s2">"Some fields aren't filled in"</span><span class="p">;</span>
+</pre></div>
 
 <p>Isn't it?</p>
 
@@ -106,12 +106,12 @@ if(!isset($_GET["name"]) || isset($_GET["email"]))
 
 <p>The same thing can be done with POST</p>
 
-<pre><code>&lt;?php
-$lib-&gt;add("must");
-$lib-&gt;must-&gt;post(["name", "email"], function() {
-    echo "Some fields aren't filled in";
-});
-</code></pre>
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s2">"must"</span><span class="p">);</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">must</span><span class="o">-&gt;</span><span class="na">post</span><span class="p">([</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"email"</span><span class="p">],</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">"Some fields aren't filled in"</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
 
 <p>Works TOO :)</p>
 
@@ -119,12 +119,12 @@ $lib-&gt;must-&gt;post(["name", "email"], function() {
 
 <p>It works for about anything, even for your own arrays, like this:</p>
 
-<pre><code>&lt;?php
-$lib-&gt;add("must");
-$lib-&gt;must-&gt;handle($myarr, ["elementx", "elementy"], function() {
-    echo "Some elements aren't set in the array \$myarr...";
-});
-</code></pre>
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s2">"must"</span><span class="p">);</span>
+<span class="nv">$lib</span><span class="o">-&gt;</span><span class="na">must</span><span class="o">-&gt;</span><span class="na">handle</span><span class="p">(</span><span class="nv">$myarr</span><span class="p">,</span> <span class="p">[</span><span class="s2">"elementx"</span><span class="p">,</span> <span class="s2">"elementy"</span><span class="p">],</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">"Some elements aren't set in the array </span><span class="se">\$</span><span class="s2">myarr..."</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
 
 <p>Yep, it works </p>
 
