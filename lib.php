@@ -5,14 +5,14 @@ class lib {
 	protected $__removed = [];
 	protected $pluginspath;
 	protected $defaults;
-    protected $__usedprotocols = [];
+	protected $__usedprotocols = [];
 	function __construct() {
 		$this->keyword("more");
 		$this->keyword("ok");
 		$this->keyword("already_there");
 		$this->defaults = new stdClass;
 		$this->pluginspath = $this->defaults->pluginspath = __DIR__."/classes/";
-        include $this->pluginspath."base.php";
+		include $this->pluginspath."base.php";
 	}
 	function __get($name) {
 		if($name != "__removed")
@@ -51,8 +51,8 @@ class lib {
 		$removed = $this->__removed;
 		$removed[$protocol] = $this->$protocol;
 		$this->__removed = $removed;
-        if(method_exists($this->$protocol, "__removed"))
-            call_user_func([$this->$protocol, "__removed"]);
+		if(method_exists($this->$protocol, "__removed"))
+			call_user_func([$this->$protocol, "__removed"]);
 		$this->$protocol = null;
 		return $this->keyword("ok");
 	}
@@ -81,20 +81,20 @@ class lib {
 			return $d;
 	}
 	function trigger_error($error = "") {
-        if(isset($this->prettyerrors)) {
-            if(!isset($this->__prettyobject))
-            $this->__prettyobject = $this->prettyerrors->setTitle()->setArgs("NSL args", [
-                "Used Protocols" => $this->__usedprotocols,
-                "Removed Protocols" => $this->__removed
-            ])->register();
-            throw new RuntimeException($error);
-        }else
-    		die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");
+		if(isset($this->prettyerrors)) {
+			if(!isset($this->__prettyobject))
+			$this->__prettyobject = $this->prettyerrors->setTitle()->setArgs("NSL args", [
+				"Used Protocols" => $this->__usedprotocols,
+				"Removed Protocols" => $this->__removed
+			])->register();
+			throw new RuntimeException($error);
+		}else
+			die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");
 	}
 	function _add($protocol) {
 		$protocol = strtolower($protocol);
 		if(!isset($this->$protocol)) {
-            $this->__usedprotocols[] = $protocol;
+			$this->__usedprotocols[] = $protocol;
 			if(isset($this->__removed[$protocol])) {
 				$this->$protocol = $this->__removed[$protocol];
 				unset($this->__removed[$protocol]);
