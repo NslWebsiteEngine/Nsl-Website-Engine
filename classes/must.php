@@ -1,5 +1,5 @@
 <?php
-class must {
+class must extends base {
 	function get($params, $callback) {
 		$this->handle($_GET, $params, $callback);
 	}

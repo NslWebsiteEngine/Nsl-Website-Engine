@@ -1,9 +1,10 @@
 <?php
-class db {
+class db extends base {
 	private $connection;
 	public $resource;
 	private $db;
-	function __construct($main, $db = "NSLWebEngineDataBase") {
+	function __construct(&$main, $db = "NSLWebEngineDataBase") {
+        parent::__construct(&$main);
 		$this->connection = new MongoClient();
 		$this->db = $this->connection->selectDB($db);
 	}

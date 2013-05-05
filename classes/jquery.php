@@ -1,6 +1,7 @@
 <?php
-class jquery {
-	function __construct() {
+class jquery extends base {
+	function __construct(&$main) {
+        parent::__construct(&$main);
 		if(!file_exists("jquery.js"))
 			file_put_contents("jquery.js", fopen("http://code.jquery.com/jquery-latest.min.js", "r"));
 		else {

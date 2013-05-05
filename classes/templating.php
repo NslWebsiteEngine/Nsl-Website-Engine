@@ -1,8 +1,9 @@
 <?php
 include "vendor/autoload.php";
-class templating {
+class templating extends base {
 	private $twig;
-	function __construct() {
+	function __construct(&$main) {
+        parent::__construct(&$main);
 		$this->twig = new Twig_Environment(new Twig_Loader_Filesystem(realpath('views/')), [
 			//'cache' => '/path/to/compilation_cache'
 		]);

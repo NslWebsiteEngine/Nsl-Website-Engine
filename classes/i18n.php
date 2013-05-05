@@ -1,10 +1,6 @@
 <?php
-class i18n {
+class i18n extends base {
 	public $languages;
-	public $main;
-	function __construct($main) {
-		$this->main = $main;
-	}
 	function addLanguage($language) {
 		$language = str_replace(chr(0), "", strtolower($language));
 		$language = preg_replace("/[^A-Za-z\_]/", "", $language);

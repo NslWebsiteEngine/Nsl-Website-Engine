@@ -1,5 +1,5 @@
 <?php
-class data {
+class data extends base {
 	function nicetime($fromDate, $toDate = NULL, $precision = -1, $separator = ', ', $divisors = NULL) {
 		$dates = [$fromDate, $toDate];
 		$difference = time() - $fromDate;

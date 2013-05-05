@@ -2,7 +2,7 @@
 /*
 VERY MUCH THANKS TO Daniel.L.Wood@Gmail.com for the basic class.
 */
-class typehint {
+class typehint extends base {
 	static private $Typehints = array(
 		'bool' => 'is_bool',
 		'int' => 'is_int',
@@ -15,7 +15,8 @@ class typehint {
 		'null' => 'is_null',
 		'void' => 'is_null'
 	);
-	function __construct() {
+	function __construct(&$main) {
+        parent::__construct(&$main);
 		set_error_handler(__CLASS__.'::handleTypehint');
 		self::$Typehints['mixed'] = function() { return true; };
 		self::$Typehints['number'] = function($x) { return is_int($x) || is_float($x) || is_double($x); };

@@ -3,11 +3,15 @@ class lib {
 	protected $__keywords__;
 	protected $__keywords_counter__ = 0xF0;
 	protected $__removed = [];
-	protected $pluginspath = "classes/";
+	protected $pluginspath;
+	protected $defaults;
 	function __construct() {
 		$this->keyword("more");
 		$this->keyword("ok");
 		$this->keyword("already_there");
+		$this->defaults = new stdClass;
+		$this->pluginspath = $this->defaults->pluginspath = __DIR__."/classes/";
+        include $this->pluginspath."base.php";
 	}
 	function __get($name) {
 		if($name != "__removed")
@@ -25,10 +29,10 @@ class lib {
 		return false;
 	}
 	function setpluginspath($path) {
+		if(!is_dir($path))
+			$path = $this->defaults->pluginspath;
 		if(substr($path, -1) != "/")
 			$path .= "/";
-		if(!is_dir($path))
-			$path = "classes/";
 		$this->pluginspath = $path;
 		return $path;
 	}
@@ -46,6 +50,8 @@ class lib {
 		$removed = $this->__removed;
 		$removed[$protocol] = $this->$protocol;
 		$this->__removed = $removed;
+        if(method_exists($this->$protocol, "__removed"))
+            call_user_func([$this->$protocol, "__removed"]);
 		$this->$protocol = null;
 		return $this->keyword("ok");
 	}
@@ -74,7 +80,7 @@ class lib {
 			return $d;
 	}
 	function trigger_error($error) {
-		die("NSL ERROR: {$error}");
+		die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");
 	}
 	function _add($protocol) {
 		$protocol = strtolower($protocol);
@@ -91,8 +97,7 @@ class lib {
 					$this->trigger_error("Unable to find {$protocol} class.");
 				$this->$protocol = new $protocol($this);
 				if(isset($this->$protocol->__requirements)) {
-					foreach($this->$protocol->__requirements as $k => $v)
-						$this->add($v);
+					$this->add($v);
 					return $this->keyword("more");
 				}
 				return $this->keyword("ok");

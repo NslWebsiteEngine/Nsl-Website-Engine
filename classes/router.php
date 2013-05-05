@@ -1,5 +1,5 @@
 <?php
-class router {
+class router extends base {
 	function route($method, $path, $function) {
 		if(substr($path, 0, 1) != "/")
 			$path = "/".$path;
@@ -37,6 +37,7 @@ class router {
 		);
 	}
 	function __destruct() {
+        parent::__desturct();
 		if(!isset($this->routes["/\/404/"]))
 			$this->routes["/\/404/"] = ["ALL", function() {
 				echo "The requested page could not be found";

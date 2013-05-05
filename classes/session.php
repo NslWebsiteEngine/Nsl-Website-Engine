@@ -1,6 +1,7 @@
 <?php
-class session {
-	function __construct() {
+class session extends base {
+	function __construct(&$main) {
+        parent::__construct(&$main);
 		session_start();
 	}
 	function __get($name) {

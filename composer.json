@@ -1,0 +1,16 @@
+{
+    "name": "newsocialifecom/websiteengine",
+    "description": "The ultimative website engine of New Social Life",
+    "require": {
+        "twig/twig": "*",
+        "filp/whoops": "1.*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Danny Morabito",
+            "email": "staff@newsocialife.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
