@@ -16,7 +16,7 @@ class typehint extends base {
 		'void' => 'is_null'
 	);
 	function __construct(&$main) {
-        parent::__construct(&$main);
+        parent::__construct($main);
 		set_error_handler(__CLASS__.'::handleTypehint');
 		self::$Typehints['mixed'] = function() { return true; };
 		self::$Typehints['number'] = function($x) { return is_int($x) || is_float($x) || is_double($x); };

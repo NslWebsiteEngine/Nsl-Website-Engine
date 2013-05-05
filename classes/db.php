@@ -4,7 +4,7 @@ class db extends base {
 	public $resource;
 	private $db;
 	function __construct(&$main, $db = "NSLWebEngineDataBase") {
-        parent::__construct(&$main);
+        parent::__construct($main);
 		$this->connection = new MongoClient();
 		$this->db = $this->connection->selectDB($db);
 	}
