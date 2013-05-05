@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__."../vendor/autoload.php";
+include_once __DIR__."/../vendor/autoload.php";
 class templating extends base {
 	private $twig;
 	function __construct(&$main) {

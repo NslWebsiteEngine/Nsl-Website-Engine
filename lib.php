@@ -5,6 +5,7 @@ class lib {
 	protected $__removed = [];
 	protected $pluginspath;
 	protected $defaults;
+    protected $__usedprotocols = [];
 	function __construct() {
 		$this->keyword("more");
 		$this->keyword("ok");
@@ -79,12 +80,21 @@ class lib {
 		else
 			return $d;
 	}
-	function trigger_error($error) {
-		die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");
+	function trigger_error($error = "") {
+        if(isset($this->prettyerrors)) {
+            if(!isset($this->__prettyobject))
+            $this->__prettyobject = $this->prettyerrors->setTitle()->setArgs("NSL args", [
+                "Used Protocols" => $this->__usedprotocols,
+                "Removed Protocols" => $this->__removed
+            ])->register();
+            throw new RuntimeException($error);
+        }else
+    		die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");
 	}
 	function _add($protocol) {
 		$protocol = strtolower($protocol);
 		if(!isset($this->$protocol)) {
+            $this->__usedprotocols[] = $protocol;
 			if(isset($this->__removed[$protocol])) {
 				$this->$protocol = $this->__removed[$protocol];
 				unset($this->__removed[$protocol]);
@@ -97,7 +107,7 @@ class lib {
 					$this->trigger_error("Unable to find {$protocol} class.");
 				$this->$protocol = new $protocol($this);
 				if(isset($this->$protocol->__requirements)) {
-					$this->add($v);
+					$this->add($this->$protocol->__requirements);
 					return $this->keyword("more");
 				}
 				return $this->keyword("ok");
