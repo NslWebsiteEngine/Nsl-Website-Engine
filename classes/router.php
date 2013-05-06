@@ -37,7 +37,7 @@ class router extends base {
 		);
 	}
 	function __destruct() {
-        parent::__desturct();
+        parent::__destruct();
 		if(!isset($this->routes["/\/404/"]))
 			$this->routes["/\/404/"] = ["ALL", function() {
 				echo "The requested page could not be found";
