@@ -42,7 +42,7 @@ class session extends base {
 				return var_dump($this->$variable);
 			break;
 			default:
-				trigger_my_error("The class session has no method ".$option, E_USER_WARNING);
+				$this->main->trigger_my_error("The class session has no method ".$option, E_USER_WARNING);
 				die();
 			break;
 		}
