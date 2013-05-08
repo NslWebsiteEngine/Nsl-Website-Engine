@@ -1,5 +1,5 @@
 <?php
-class utils {
+class utils extends base {
     function is_json($json) {
         if(substr($json, 0, 1) != "{" && substr($json, 0, 1) != "[" && substr($json, -1) != "}" && substr($json, -1) != "]")
             return false;
@@ -10,7 +10,11 @@ class utils {
     	return json_decode(file_get_contents("{$file}"));
 	}
     function usenslargs() {
-        ini_set('arg_separator.output',';');
+        if(is_function("ini_set"))
+            ini_set('arg_separator.output', ';');
+        else
+            $this->main->arg_separator = ";"; // in development ^^
+        return true;
     }
     function json_encode_file($file, $contents) {
         if(!$this->is_json($contents))
@@ -20,14 +24,14 @@ class utils {
 	function toObject($array) {
 		$obj = new stdClass();
 		foreach ($array as $key => $val)
-			$obj->$key = is_array($val) ? self::toObject($val) : $val;
+			$obj->$key = is_array($val) ? $this->toObject($val) : $val;
 		return $obj;
 	}
 	function toArray($d) {
 		if(is_object($d))
 			$d = get_object_vars($d);
 		if(is_array($d))
-			return array_map(__FUNCTION__, $d);
+			return array_map(array($this, "toArray"), $d);
 		else
 			return $d;
 	}
