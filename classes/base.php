@@ -1,7 +1,7 @@
 <?php
 class base {
     public $main;
-    public $__requirements = [];
+    protected $__requirements = [];
     public $author = "Danny Morabito";
     public $version = "1.0.0";
     

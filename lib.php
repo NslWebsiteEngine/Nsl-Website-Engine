@@ -63,23 +63,6 @@ class lib {
 		}
 		return dechex($this->__keywords__[$k]);
 	}
-	function json_decode_file($file) {
-		return json_decode(file_get_contents("{$file}"));
-	}
-	static function toObject($array) {
-		$obj = new stdClass();
-		foreach ($array as $key => $val)
-			$obj->$key = is_array($val) ? self::toObject($val) : $val;
-		return $obj;
-	}
-	static function toArray($d) {
-		if(is_object($d))
-			$d = get_object_vars($d);
-		if(is_array($d))
-			return array_map(__FUNCTION__, $d);
-		else
-			return $d;
-	}
 	function trigger_error($error = "") {
 		if(isset($this->prettyerrors)) {
 			if(!isset($this->__prettyobject))
