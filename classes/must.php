@@ -1,13 +1,13 @@
 <?php
 class must extends base {
-	function get($params, $callback) {
-		$this->handle($_GET, $params, $callback);
+	function get($params, $callback = null, $callbackelse = null) {
+		$this->handle($_GET, $params, $callback, $callbackelse);
 	}
-	function post($params, $callback) {
-		$this->handle($_POST, $params, $callback);
+	function post($params, $callback = null, $callbackelse = null) {
+		$this->handle($_POST, $params, $callback, $callbackelse);
 	}
-	function cookie($params, $callback) {
-		$this->handle($_COOKIE, $params, $callback);
+	function cookie($params, $callback = null, $callbackelse = null) {
+		$this->handle($_COOKIE, $params, $callback, $callbackelse);
 	}
 	function handle($arr, $params, $callback = null, $callbackelse = null) {
 		if(is_null($callback))
@@ -21,10 +21,10 @@ class must extends base {
 		if(is_array($params)) {
 			foreach($params as $param) {
 				if(!isset($arr[$param]) || strlen($arr[$param]) < 1)
-					$callback($param);
+					return $callback($param);
 			}
 		}else
 			if(!isset($arr[$params]) || strlen($arr[$params]) < 1)
-				$callback($params);
+				return $callback($params);
 	}
 }

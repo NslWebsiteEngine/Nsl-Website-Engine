@@ -66,10 +66,10 @@ class lib {
 	function trigger_error($error = "") {
 		if(isset($this->prettyerrors)) {
 			if(!isset($this->__prettyobject))
-			$this->__prettyobject = $this->prettyerrors->setTitle()->setArgs("NSL args", [
-				"Used Protocols" => $this->__usedprotocols,
-				"Removed Protocols" => $this->__removed
-			])->register();
+		    	$this->__prettyobject = $this->prettyerrors->setTitle()->setArgs("NSL args", [
+		    		"Used Protocols" => $this->__usedprotocols,
+		    		"Removed Protocols" => $this->__removed
+		    	])->register();
 			throw new RuntimeException($error);
 		}else
 			die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");

@@ -17,6 +17,8 @@ class db extends base {
 		list($function, $table) = explode("…", strtolower(preg_replace("/([a-z])([A-Z])/", "$1…$2", $fun)));
 		if(substr($table, -1) != "s")
 			$table .= "s";
+        if($table == "Persons")
+            $table = "People";
 		switch($function) {
 			case "select":
 			case "find":
