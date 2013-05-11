@@ -5,7 +5,7 @@
  */
 
 namespace Whoops\Exception;
-use Whoops\Exception\FrameIterator;
+use Whoops\Exception\FrameCollection;
 use Whoops\Exception\ErrorException;
 use Exception;
 
@@ -17,9 +17,9 @@ class Inspector
     private $exception;
 
     /**
-     * @var Whoops\Exception\FrameIterator
+     * @var Whoops\Exception\FrameCollection
      */
-    private $framesIterator;
+    private $frames;
 
     /**
      * @param Exception $exception The exception to inspect
@@ -56,28 +56,28 @@ class Inspector
     /**
      * Returns an iterator for the inspected exception's
      * frames.
-     * @return Whoops\Exception\FrameIterator
+     * @return Whoops\Exception\FrameCollection
      */
     public function getFrames()
     {
-        if($this->framesIterator === null) {
-            $frames     = $this->exception->getTrace();
+        if($this->frames === null) {
+            $frames = $this->exception->getTrace();
 
             // If we're handling an ErrorException thrown by Whoops,
             // get rid of the last frame, which matches the handleError method,
             // and do not add the current exception to trace. We ensure that
             // the next frame does have a filename / linenumber, though.
             if($this->exception instanceof ErrorException && empty($frames[1]['line'])) {
-                $frames[1] = $frames[1] + $frames[0];
+                $frames[1] = isset($frames[1]) ? $frames[1] + $frames[0] : $frames[0];
                 array_shift($frames);
             } else {
                 $firstFrame = $this->getFrameFromException($this->exception);
                 array_unshift($frames, $firstFrame);
             }
-            $this->framesIterator = new FrameIterator($frames);
+            $this->frames = new FrameCollection($frames);
         }
 
-        return $this->framesIterator;
+        return $this->frames;
     }
 
     /**

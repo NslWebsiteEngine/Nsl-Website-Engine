@@ -55,37 +55,6 @@ https://github.com/filp/whoops/wiki/API-Documentation
 
 ## Usage
 
-### Opening referenced files with your favorite editor or IDE
-
-When using the pretty error page feature, whoops comes with the ability to
-open referenced files directly in your IDE or editor.
-
-```php
-<?php
-
-use Whoops\Handler\PrettyPageHandler;
-
-$handler = new PrettyPageHandler;
-$handler->setEditor('sublime');
-```
-
-The following editors are currently supported by default.
-
-- `sublime`  - Sublime Text 2
-- `emacs`    - Emacs
-- `textmate` - Textmate
-- `macvim`   - MacVim
-
-Adding your own editor is simple:
-
-```php
-
-$handler->setEditor(function($file, $line) {
-    return "whatever://open?file=$file&line=$line";
-});
-
-```
-
 ### Integrating with Silex
 
 **whoops** comes packaged with a Silex Service Provider: `Whoops\Provider\Silex\WhoopsServiceProvider`. Using it
@@ -166,6 +135,38 @@ return array(
 
 - NOTE: ob_clean(); is used to remove previous output, so you may use ob_start(); at the beginning of your app (index.php)
 
+### Opening referenced files with your favorite editor or IDE
+
+When using the pretty error page feature, whoops comes with the ability to
+open referenced files directly in your IDE or editor.
+
+```php
+<?php
+
+use Whoops\Handler\PrettyPageHandler;
+
+$handler = new PrettyPageHandler;
+$handler->setEditor('sublime');
+```
+
+The following editors are currently supported by default.
+
+- `sublime`  - Sublime Text 2
+- `emacs`    - Emacs
+- `textmate` - Textmate
+- `macvim`   - MacVim
+- `xdebug`   - xdebug (uses [xdebug.file_link_format](http://xdebug.org/docs/all_settings#file_link_format))
+
+Adding your own editor is simple:
+
+```php
+
+$handler->setEditor(function($file, $line) {
+    return "whatever://open?file=$file&line=$line";
+});
+
+```
+
 ### Available Handlers
 
 **whoops** currently ships with the following built-in handlers, available in the `Whoops\Handler` namespace:
@@ -176,7 +177,10 @@ return array(
 
 ## Contributing
 
-If you want to help, great! Here's a couple of steps/guidelines:
+If you want to give me some feedback or make a suggestion, send me a message through
+twitter: [@imfilp](https://twitter.com/imfilp)
+
+If you want to get your hands dirty, great! Here's a couple of steps/guidelines:
 
 - Fork/clone this repo, and update dev dependencies using Composer
 
@@ -197,7 +201,7 @@ $ git checkout -b feature/flames-on-the-side
 - Send me a pull request!
 
 If you don't want to go through all this, but still found something wrong or missing, please
-**open a new issue report** so that I or others may take care of it.
+let me know, and/or **open a new issue report** so that I or others may take care of it.
 
 ## Authors
 

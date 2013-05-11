@@ -1,17 +1,17 @@
 [
     {
         "name": "filp/whoops",
-        "version": "1.0.4",
-        "version_normalized": "1.0.4.0",
+        "version": "1.0.6",
+        "version_normalized": "1.0.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/filp/whoops.git",
-            "reference": "1.0.4"
+            "reference": "1.0.6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/filp/whoops/zipball/1.0.4",
-            "reference": "1.0.4",
+            "url": "https://api.github.com/repos/filp/whoops/zipball/1.0.6",
+            "reference": "1.0.6",
             "shasum": ""
         },
         "require": {
@@ -21,7 +21,7 @@
             "mockery/mockery": "dev-master",
             "silex/silex": "1.0.*@dev"
         },
-        "time": "2013-04-24 15:55:28",
+        "time": "2013-05-10 22:13:22",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -59,18 +59,18 @@
         "source": {
             "type": "git",
             "url": "https://github.com/fabpot/Twig.git",
-            "reference": "4d90a5008d2c2cc30f5e5c8622e979674178bf6c"
+            "reference": "4a49a3ae30ad2694057a63eccc3fb7b551b93e74"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/fabpot/Twig/zipball/4d90a5008d2c2cc30f5e5c8622e979674178bf6c",
-            "reference": "4d90a5008d2c2cc30f5e5c8622e979674178bf6c",
+            "url": "https://api.github.com/repos/fabpot/Twig/zipball/4a49a3ae30ad2694057a63eccc3fb7b551b93e74",
+            "reference": "4a49a3ae30ad2694057a63eccc3fb7b551b93e74",
             "shasum": ""
         },
         "require": {
             "php": ">=5.2.4"
         },
-        "time": "2013-05-07 18:59:51",
+        "time": "2013-05-10 15:25:39",
         "type": "library",
         "extra": {
             "branch-alias": {

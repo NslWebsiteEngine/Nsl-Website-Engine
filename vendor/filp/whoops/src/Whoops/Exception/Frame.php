@@ -6,8 +6,9 @@
 
 namespace Whoops\Exception;
 use InvalidArgumentException;
+use Serializable;
 
-class Frame
+class Frame implements Serializable
 {
     /**
      * @var array
@@ -135,6 +136,17 @@ class Frame
     }
 
     /**
+     * Returns the array containing the raw frame data from which
+     * this Frame object was built
+     * 
+     * @return array
+     */
+    public function getRawFrame()
+    {
+        return $this->frame;
+    }
+
+    /**
      * Returns the contents of the file for this frame as an
      * array of lines, and optionally as a clamped range of lines.
      *
@@ -176,5 +188,41 @@ class Frame
 
             return $lines;
         }
+    }
+
+    /**
+     * Implements the Serializable interface, with special
+     * steps to also save the existing comments.
+     * 
+     * @see Serializable::serialize
+     * @return string
+     */
+    public function serialize()
+    {
+        $frame = $this->frame;
+        if(!empty($this->comments)) {
+            $frame['_comments'] = $this->comments;
+        }
+
+        return serialize($frame);
+    }
+
+    /**
+     * Unserializes the frame data, while also preserving
+     * any existing comment data.
+     * 
+     * @see Serializable::unserialize
+     * @param string $serializedFrame
+     */
+    public function unserialize($serializedFrame)
+    {
+        $frame = unserialize($serializedFrame);
+
+        if(!empty($frame['_comments'])) {
+            $this->comments = $frame['_comments'];
+            unset($frame['_comments']);
+        }
+
+        $this->frame = $frame;
     }
 }

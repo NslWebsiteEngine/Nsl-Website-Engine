@@ -26,6 +26,7 @@ class FrameTest extends TestCase
     }
 
     /**
+     * @param  array $data
      * @return Whoops\Exception\Frame
      */
     private function getFrameInstance($data = null)
@@ -178,5 +179,31 @@ class FrameTest extends TestCase
         $this->assertCount(2, $comments);
         $this->assertEquals($comments[0]['comment'], $testComments[0][0]);
         $this->assertEquals($comments[1]['comment'], $testComments[1][0]);
+    }
+
+    /**
+     * @covers Whoops\Exception\Frame::serialize
+     * @covers Whoops\Exception\Frame::unserialize
+     */
+    public function testFrameIsSerializable()
+    {
+        $data            = $this->getFrameData();
+        $frame           = $this->getFrameInstance();
+        $commentText     = "Gee I hope this works";
+        $commentContext  = "test";
+
+        $frame->addComment($commentText, $commentContext);
+
+        $serializedFrame = serialize($frame);
+        $newFrame        = unserialize($serializedFrame);
+
+        $this->assertInstanceOf('Whoops\\Exception\\Frame', $newFrame);
+        $this->assertEquals($newFrame->getFile(), $data['file']);
+        $this->assertEquals($newFrame->getLine(), $data['line']);
+
+        $comments = $newFrame->getComments();
+        $this->assertCount(1, $comments);
+        $this->assertEquals($comments[0]["comment"], $commentText);
+        $this->assertEquals($comments[0]["context"], $commentContext);
     }
 }
