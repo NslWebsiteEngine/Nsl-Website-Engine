@@ -18,6 +18,9 @@ class base {
 			$this->version .= ".0";
 		return $this->version;
 	}
+    function returnMe() {
+        return $this;
+    }
 	
 	function __destruct() {
 		
