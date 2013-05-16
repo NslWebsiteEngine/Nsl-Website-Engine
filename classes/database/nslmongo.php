@@ -1,4 +1,4 @@
-<?php
+<?php 
 class nslmongo extends dbbase {
 	private $connection;
 	public $resource;
