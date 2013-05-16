@@ -2,7 +2,7 @@
 class mysql extends base {
 	function __construct(&$main) {
 		parent::__construct($main);
-		$this->separator = "%{ARG%}";
+		$this->separator = "%{ARG}%";
 	}
 	function setSeparator($begin, $end) {
 		$this->separator = $begin."ARG".$end;
