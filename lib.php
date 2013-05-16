@@ -10,14 +10,17 @@ class lib {
 		$this->keyword("more");
 		$this->keyword("ok");
 		$this->keyword("already_there");
+		$this->keyword("no_plugin_namespace");
 		$this->defaults = new stdClass;
 		$this->pluginspath = $this->defaults->pluginspath = __DIR__."/classes/";
+		$this->setpluginspath($this->pluginspath);
 		include $this->pluginspath."base.php";
 	}
 	function __get($name) {
-		if($name != "__removed")
-			if(!isset($this->$name))
+		if(!isset($this->$name)) {
+			if(file_exists($this->pluginspath."/".$name.".php"))
 				$this->trigger_error("Class {$name} isn't loaded");
+		}
 	}
 	function add($protocols) {
 		if(is_array($protocols)) {
@@ -35,6 +38,7 @@ class lib {
 		if(substr($path, -1) != "/")
 			$path .= "/";
 		$this->pluginspath = $path;
+		$GLOBALS["NSLWebsiteEngine/pluginspath"] = $this->pluginspath;
 		return $path;
 	}
 	function set($protocol) { return $this->add($protocol); }
@@ -75,6 +79,8 @@ class lib {
 			die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");
 	}
 	function _add($protocol) {
+		if(preg_replace("/([a-z])([A-Z])/", "$1/$2", $protocol) != $protocol)
+			return $this->_folder_add($protocol);
 		$protocol = strtolower($protocol);
 		if(!isset($this->$protocol)) {
 			$this->__usedprotocols[] = $protocol;
@@ -97,5 +103,53 @@ class lib {
 			}
 		}
 		return $this->keyword("already_there");
+	}
+	function _folder_add($protocol) {
+		$original = $protocol;
+		$protocol = preg_replace("/([a-z])([A-Z])/", "$1/$2", $protocol);
+		$protocol = strtolower($protocol);
+		$protocol = explode("/", $protocol);
+		if(is_dir($this->pluginspath.$protocol[0])) {
+			$dirname = array_shift($protocol);
+			$dir = $this->pluginspath.$dirname;
+			if(count($protocol) > 1)
+				$this->trigger_error("Sub sub level plugins are not implemented");
+			if(file_exists($dir."/base.php")) // every sub level can have a base.php
+				include_once $dir."/base.php";
+			$protocol = strtolower(array_shift($protocol));
+			if(!isset($this->$dirname->$protocol)) {
+				$this->__usedprotocols[$dirname][] = $protocol;
+				$this->__usedprotocols[] = $dirname.ucfirst(strtolower($protocol));
+				if(isset($this->__removed[$dirname][$protocol])) {
+					$this->$protocol = $this->__removed[$dirname][$protocol];
+					unset($this->__removed[$dirname][$protocol]);
+					return $this->keyword("ok");
+				} else {
+					$name = $dir."/".strtolower($protocol).".php";
+					if(file_exists($name))
+						include_once $name;
+					else
+						$this->trigger_error("Unable to find {$dirname}{$protocol} class.");
+					$protocolname = $dirname.ucfirst(strtolower($protocol));
+					if(!isset($this->$dirname))
+						$this->$dirname = new stdClass;
+					if(class_exists($protocolname))
+						$this->$dirname->$protocol = new $protocolname($this);
+					else {
+						$onlyprot = strtolower(substr($protocolname, strlen($dirname)));
+						if(class_exists($onlyprot))
+							$this->$dirname->$protocol = new $onlyprot($this);
+					}
+					if(isset($this->$dirname->$protocol->__requirements)) {
+						$this->$original = $this->$dirname->$protocol;
+						$this->add($this->$dirname->$protocol->__requirements);
+						return $this->keyword("more");
+					}
+					$this->$original = $this->$dirname->$protocol;
+					return $this->keyword("ok");
+				}
+			}
+		}else
+			return $this->keyword("no_plugin_namespace");
 	}
 }
