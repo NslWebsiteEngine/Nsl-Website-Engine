@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'Whoops' => $vendorDir . '/filp/whoops/src',
     'Twig_' => $vendorDir . '/twig/twig/lib',
+    'Gregwar\\Tex2png' => $vendorDir . '/gregwar/tex2png',
 );

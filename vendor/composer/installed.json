@@ -145,5 +145,53 @@
         "keywords": [
             "templating"
         ]
+    },
+    {
+        "name": "gregwar/tex2png",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "target-dir": "Gregwar/Tex2png",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Gregwar/Tex2png.git",
+            "reference": "1db9f2eb3d4ea453f0d76a1160b3eb8ef100432d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Gregwar/Tex2png/zipball/1db9f2eb3d4ea453f0d76a1160b3eb8ef100432d",
+            "reference": "1db9f2eb3d4ea453f0d76a1160b3eb8ef100432d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2012-12-05 10:21:08",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Gregwar\\Tex2png": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Grégoire Passault",
+                "email": "g.passault@gmail.com",
+                "homepage": "http://www.gregwar.com/"
+            }
+        ],
+        "description": "LaTeX formula to PNG",
+        "homepage": "https://github.com/Gregwar/Tex2png",
+        "keywords": [
+            "formula",
+            "image",
+            "latex",
+            "math",
+            "png"
+        ]
     }
 ]
