@@ -114,10 +114,6 @@ class string extends base {
 			return new string($this->main, $ret);
 		return $ret;
 	}
-	function set($content) {
-		$this->content = $string;
-		return $this;
-	}
 	function replace($search, $replace) {
 		return new string($this->main, str_replace($search, $replace, $this->content));
 	}
