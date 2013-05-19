@@ -10,12 +10,12 @@ class latex extends base {
 		$this->compiler->packages[] = $package;
 		return $this;
 	}
-	function generate($latex) {
-		return $this->compiler->create($latex)->
+	function generate($latex, $density = 155) {
+		return $this->compiler->create($latex, $density)->
 			generate()->
 			getFile();
 	}
-	function compile_from_file($file) {
-		return $this->generate(file_get_contents($file));
+	function compile_from_file($file, $density = 155) {
+		return $this->generate(file_get_contents($file), $density);
 	}
 }
