@@ -1,9 +1,10 @@
 <?php 
 class mysql extends base {
-	function __construct(&$main) {
-		parent::__construct($main);
-		$this->separator = "%{ARG}%";
-	}
+
+	public $separator = "%{ARG%}";
+	public $connection;
+	public $query = "";
+	
 	function setSeparator($begin, $end) {
 		$this->separator = $begin."ARG".$end;
 		return $this;
@@ -19,10 +20,15 @@ class mysql extends base {
 				$this->escape($value),
 				$query
 			);
-		return $this->connection->query($query);
+		$newthis = $this;
+		$newthis->query = $this->connection->query($query);
+		return $newthis;
+	}
+	function fetch() {
+		return mysql_fetch_object($this->query);
 	}
 	function escape($arg) {
-		return $this.->connection->real_escape_string($arg);
+		return $this->connection->real_escape_string($arg);
 	}
 	function select($table, $where, $args) {
 		return $this->query("SELECT * FROM {$table} WHERE {$where}", $args);
