@@ -30,8 +30,11 @@ class mysql extends base {
 	function escape($arg) {
 		return $this->connection->real_escape_string($arg);
 	}
-	function select($table, $where, $args) {
-		return $this->query("SELECT * FROM {$table} WHERE {$where}", $args);
+	function select($table, $where = null, $args = []) {
+		if(strlen($where) > 1 && !is_null($where))
+			return $this->query("SELECT * FROM {$table} WHERE {$where}", $args);
+		else
+			return $this->query("SELECT * FROM {$table}", $args);
 	}
 	function insupdate($function, $table, $data) {
 		$query = $function." {$table} SET "; 
