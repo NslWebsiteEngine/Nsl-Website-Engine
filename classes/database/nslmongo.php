@@ -3,6 +3,7 @@ class nslmongo extends dbbase {
 	private $connection;
 	public $resource;
 	private $db;
+    public $__requirements = ["utils"]; 
 	function __construct(&$main, $db = "NSLWebEngineDataBase") {
 		parent::__construct($main);
 		$this->connection = new MongoClient();
@@ -23,7 +24,7 @@ class nslmongo extends dbbase {
 			case "select":
 			case "find":
 			case "search":
-				$cursor = new cursor();
+				$cursor = new cursor($this->main);
 				$cursor->obj = ($this->db->$table->find($args[0]));
 				return $cursor;
 			break;
@@ -67,6 +68,9 @@ class nslmongo extends dbbase {
 }
 class cursor {
 	public $obj;
+    function __construct($main) {
+        $this->main = $main;
+    }
 	function sort($arr = []) {
 		$this->obj->sort($arr);
 		return $this;
@@ -78,9 +82,9 @@ class cursor {
 		$obj = iterator_to_array($this->obj);
 		if($this->count() == 1) {
 			reset($obj);
-			return lib::toObject($obj[key($obj)]);
+            return $this->main->utils->toObject($obj[key($obj)]);
 		}
-		return lib::toObject($obj);
+		return $this->main->utils->toObject($obj);
 	}
 	function afetch() {
 		return iterator_to_array($this->obj);
