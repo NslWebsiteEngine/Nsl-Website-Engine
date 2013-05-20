@@ -2,7 +2,8 @@
 class session extends base {
 	function __construct(&$main) {
         parent::__construct($main);
-		session_start();
+        if(session_id() == '')
+    		session_start();
 	}
 	function __get($name) {
 		return isset($_SESSION["NSLWebEngine::".$name]) ? $_SESSION["NSLWebEngine::".$name] : null;

@@ -1,6 +1,6 @@
 <?php
 class lib {
-	protected $__keywords__;
+    protected $__keywords__;
 	protected $__keywords_counter__ = 0xF0;
 	protected $__removed = [];
 	protected $pluginspath;
@@ -67,13 +67,17 @@ class lib {
 		}
 		return dechex($this->__keywords__[$k]);
 	}
-	function trigger_error($error = "") {
+	function trigger_error($error = "", $editor = "") {
 		if(isset($this->prettyerrors)) {
-			if(!isset($this->__prettyobject))
-		    	$this->__prettyobject = $this->prettyerrors->setTitle()->setArgs("NSL args", [
+			if(!isset($this->__prettyobject)) {
+		    	$ed = $this->__prettyobject = $this->prettyerrors->setTitle()->setArgs("NSL args", [
 		    		"Used Protocols" => $this->__usedprotocols,
 		    		"Removed Protocols" => $this->__removed
-		    	])->register();
+		    	]);
+                if($editor != "")
+                    $ed->setEditor($editor);
+                $ed->register();
+			}
 			throw new RuntimeException($error);
 		}else
 			die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");

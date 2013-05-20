@@ -20,6 +20,10 @@ class prettyerrors extends base {
         $this->handler->setPageTitle($title);
         return $this;
     }
+    function setEditor($editor) {
+        $this->handler->setEditor($editor);
+        return $this;
+    }
     
     function register() {
         $this->run->pushHandler($this->handler);
