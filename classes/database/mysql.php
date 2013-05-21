@@ -5,6 +5,47 @@ class mysql extends base {
 	public $connection;
 	public $query = "";
 	
+
+	function __call($function, $args) { // $lib->main->database->mysql->selectUser("WHERE 'a' = '%a'", [])
+		list($function, $table) = explode("//", preg_replace("/([a-z])([A-Z])/", "$1//$2", $function));
+		if(substr($table, -1) != "s")
+			$table .= "s";
+		if($table == "Persons")
+			$table = "People";
+		switch($function) {
+			case "select": 
+			case "find":
+			case "search":
+				if(count($args) != 2)
+					$this->main->trigger_error("You can pass only two args to this function");
+				$query = "SELECT * FROM {$table}"." ".$args[0];
+				return $this->query($query, $args[1]);
+			break;
+			case "count":
+			case "num":
+				if(count($args) != 2)
+					$this->main->trigger_error("You can pass only two args to this function");
+				$query = "SELECT COUNT(*) cnt FROM {$table}"." ".$args[0];
+				return $this->query($query, $args[1])->fetch()->cnt;
+			break;
+			case "insert":
+			case "new":
+			case "ins":
+			case "add":
+				return $this->insert($table, $args[0]);
+			break;
+			case "update":
+			case "edit":
+			case "modify":
+				$query = "UPDATE {$table} SET ";
+				$els = [];
+				foreach($data as $key => $value)
+					$els[] = "{$key} = '".$this->escape($value)."'";
+				$query .= implode(", ", $els);
+				return $this->query($query, $args[0]);
+			break;
+		}
+	}
 	function setSeparator($begin, $end) {
 		$this->separator = $begin."ARG".$end;
 		return $this;
@@ -52,5 +93,8 @@ class mysql extends base {
 	}
 	function show($what = "TABLES") {
 		return $this->query("SHOW ".strtoupper($what));
+	}
+	function num() {
+		return mysql_num_rows($this->query);
 	}
 }
