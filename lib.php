@@ -12,7 +12,7 @@ class lib {
 		$this->keyword("already_there");
 		$this->keyword("no_plugin_namespace");
 		$this->defaults = new stdClass;
-		$this->pluginspath = $this->defaults->pluginspath = __DIR__."/classes/";
+		$this->pluginspath = $GLOBALS["NSLWebsiteEngine/pluginspath"] = $this->defaults->pluginspath = __DIR__."/classes/";
 		$this->setpluginspath($this->pluginspath);
 		include $this->pluginspath."base.php";
 	}
