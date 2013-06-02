@@ -4,7 +4,7 @@
     "require": {
         "twig/twig": "*",
         "filp/whoops": "*",
-        "leafo/lessphp": "*",
+        "leafo/lessphp": "0.3.*@dev",
 	"gregwar/tex2png": "*",
 	"klein/klein": "*"
     },
