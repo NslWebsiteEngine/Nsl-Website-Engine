@@ -6,7 +6,7 @@
         "filp/whoops": "*",
         "leafo/lessphp": "0.3.*@dev",
 	"gregwar/tex2png": "*",
-	"klein/klein": "*"
+	"klein/klein": "2.*"
     },
     "license": "MIT",
     "authors": [
