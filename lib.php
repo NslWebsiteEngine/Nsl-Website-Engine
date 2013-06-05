@@ -11,6 +11,8 @@ class lib {
 		$this->keyword("ok");
 		$this->keyword("already_there");
 		$this->keyword("no_plugin_namespace");
+		$this->keyword("NSL Website Engine");
+        	header("X-Powered-By: NSL Website Engine");
 		$this->defaults = new stdClass;
 		$this->pluginspath = $GLOBALS["NSLWebsiteEngine/pluginspath"] = $this->defaults->pluginspath = __DIR__."/classes/";
 		$this->setpluginspath($this->pluginspath);
