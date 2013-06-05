@@ -1,9 +1,10 @@
 <?php
 class base {
-	public $main;
+    public $main;
 	protected $__requirements = [];
 	public $author = "Danny Morabito";
 	public $version = "1.0.0";
+	public $edits = [];
 	
 	function __construct(&$main) {
 		$this->main = &$main;
@@ -18,9 +19,12 @@ class base {
 			$this->version .= ".0";
 		return $this->version;
 	}
-    function returnMe() {
-        return $this;
-    }
+	function returnMe() {
+		return $this;
+	}
+	function getEdits() {
+		return $this->edits;
+	}
 	
 	function __destruct() {
 		
