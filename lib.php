@@ -1,6 +1,6 @@
 <?php
 class lib {
-    protected $__keywords__;
+	protected $__keywords__;
 	protected $__keywords_counter__ = 0xF0;
 	protected $__removed = [];
 	protected $pluginspath;
@@ -11,8 +11,8 @@ class lib {
 		$this->keyword("ok");
 		$this->keyword("already_there");
 		$this->keyword("no_plugin_namespace");
-		$this->keyword("NSL Website Engine");
-        	header("X-Powered-By: NSL Website Engine");
+        $this->keyword("NSL Website Engine");
+        header("X-Powered-By: NSL Website Engine/#".$this->keyword("NSL Website Engine"));
 		$this->defaults = new stdClass;
 		$this->pluginspath = $GLOBALS["NSLWebsiteEngine/pluginspath"] = $this->defaults->pluginspath = __DIR__."/classes/";
 		$this->setpluginspath($this->pluginspath);
@@ -101,6 +101,7 @@ class lib {
 				else
 					$this->trigger_error("Unable to find {$protocol} class.");
 				$this->$protocol = new $protocol($this);
+                $this->$protocol = gettype($this->$protocol->__construct($this)) == "NULL" ? $this->$protocol : $this->$protocol->__construct($this);
 				if(isset($this->$protocol->__requirements)) {
 					$this->add($this->$protocol->__requirements);
 					return $this->keyword("more");
