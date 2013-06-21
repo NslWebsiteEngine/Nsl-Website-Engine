@@ -79,6 +79,8 @@ class router extends base {
                     $mtd = "ALL";
                 elseif(isset($array[$this->getMethod()]))
                     $mtd = $this->getMethod();
+                else
+                    return call_user_func_array($this->error(405), []);
                 array_shift($params);
                 return call_user_func_array($array[$mtd], array_values($params));
 			}
