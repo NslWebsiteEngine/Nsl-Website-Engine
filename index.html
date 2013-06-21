@@ -1,40 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>Nsl-website-engine by NslWebsiteEngine</title>
 
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <title>Nsl-website-engine by NslWebsiteEngine</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>Nsl-website-engine</h1>
-        <h2>The ultimative newsocialife.com website engine. Look the examples to see how it's simple to use it.</h2>
-        <a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Nsl-website-engine</h1>
+        <p class="header">The ultimative newsocialife.com website engine. Look the examples to see how it's simple to use it.</p>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>NSL Website Engine</h1>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/NslWebsiteEngine">NslWebsiteEngine</a></p>
+
+
+      </header>
+      <section>
+        <h1>
+<a name="nsl-website-engine" class="anchor" href="#nsl-website-engine"><span class="octicon octicon-link"></span></a>NSL Website Engine</h1>
 
 <p>This engine was originally developed for the new version of New Social Life, which is still in development :). This engine is really powerful, something that you have to try.</p>
 
-<h2>Features:</h2>
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features:</h2>
 
-<h3>Router</h3>
+<h3>
+<a name="router" class="anchor" href="#router"><span class="octicon octicon-link"></span></a>Router</h3>
 
 <p>The NSL Website Engine has a fantastic router that you must see. The router supports all the major http router requests like: GET, POST, PUT, DELETE. It supports even routes with Regular expressions and want to ear the new cool thing? You can specify a name for those. Think i'm trolling you? Look the examples. </p>
 
@@ -67,7 +72,7 @@
 
 <p>Attention: the router requires a change in the server configuration, otherwhise you have to input the files in the query string, like index.php?url=/</p>
 
-<p>A proper configuration for Apache is the .htaccess:  </p>
+<p>A proper configuration for Apache is the .httaccess:  </p>
 
 <pre><code>RewriteEngine On
 RewriteBase /
@@ -80,9 +85,11 @@ RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
 
 <p>Ever dreamed to have a class that allows you to check if some GET parameters are set without doing some stupid if checks that takes really much characters? Well the Must class in the Website Engine is for you!</p>
 
-<h3>Must Fields</h3>
+<h3>
+<a name="must-fields" class="anchor" href="#must-fields"><span class="octicon octicon-link"></span></a>Must Fields</h3>
 
-<h4>GET</h4>
+<h4>
+<a name="get" class="anchor" href="#get"><span class="octicon octicon-link"></span></a>GET</h4>
 
 <p>Let we suppose your user HAS to fill some get fields, name and email, if the user doesn't fill something he will be noticed.</p>
 
@@ -102,7 +109,8 @@ RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
 
 <p>Isn't it?</p>
 
-<h4>POST</h4>
+<h4>
+<a name="post" class="anchor" href="#post"><span class="octicon octicon-link"></span></a>POST</h4>
 
 <p>The same thing can be done with POST</p>
 
@@ -115,7 +123,8 @@ RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
 
 <p>Works TOO :)</p>
 
-<h4>Works for anything</h4>
+<h4>
+<a name="works-for-anything" class="anchor" href="#works-for-anything"><span class="octicon octicon-link"></span></a>Works for anything</h4>
 
 <p>It works for about anything, even for your own arrays, like this:</p>
 
@@ -128,7 +137,8 @@ RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
 
 <p>Yep, it works </p>
 
-<h3>Function typizer</h3>
+<h3>
+<a name="function-typizer" class="anchor" href="#function-typizer"><span class="octicon octicon-link"></span></a>Function typizer</h3>
 
 <p>The innovative function typzer allows you to use types in functions, just like in C</p>
 
@@ -156,30 +166,18 @@ RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
 
 <p>AND EVEN MORE</p>
 
-<h2>License</h2>
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>Developer: Danny Morabito
 You can use this in your projects but the developers' names HAVE to be in the comment of every file.
 This library uses some things like twig and klein.php, i didn't develop them, so the credits are to their, not mine.</p>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/NslWebsiteEngine/Nsl-Website-Engine"></a> is maintained by <a href="https://github.com/NslWebsiteEngine">NslWebsiteEngine</a>.</p>
-
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
     </div>
-
-  
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
   </body>
 </html>
