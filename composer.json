@@ -5,8 +5,7 @@
         "twig/twig": "*",
         "filp/whoops": "*",
         "leafo/lessphp": "0.3.*@dev",
-	"gregwar/tex2png": "*",
-	"klein/klein": "2.*"
+	"gregwar/tex2png": "*"
     },
     "license": "MIT",
     "authors": [
