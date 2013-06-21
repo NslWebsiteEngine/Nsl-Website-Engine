@@ -1,13 +1,26 @@
 <?php
 class router extends base {
+    
+    public $routes;
+    public $errors;
+    public $with;
+    
+    function __construct(&$main) {
+        parent::__construct($main);
+        $this->error(404, function() {
+            echo "The requested page could not be found";
+		});
+        $this->error(405, function() {
+            echo "The requested method isn't available for the requested page.";
+        });
+        $this->with = "/";
+    }
 	function route($method, $path, $function) {
-		if(substr($path, 0, 1) != "/")
-			$path = "/".$path;
-		if($method == "404" || $path == "404")
-			$this->routes["/404"] = [$method, $function];
-		$path = "/".str_replace('/', '\/', $path)."/";
-		$this->routes[$path] = [$method, $function];
-		return $this->routes;
+		if(substr($path, 0, strlen($this->with)) != $this->with)
+			$path = $this->with.$path;
+		$path = "/^".str_replace('/', '\/', $path)."$/";
+		$this->routes[$path][strtoupper($method)] = $function;
+		return $this;
 	}
 	function get($path, $function) {
 		return $this->route("GET", $path, $function);
@@ -21,14 +34,32 @@ class router extends base {
 	function delete($path, $function) {
 		return $this->route("DELETE", $path, $function);
 	}
+    function head($path, $function) {
+        return $this->route("HEAD", $path, $function);
+    }
 	function all($path, $function) {
 		return $this->route("ALL", $path, $function);
 	}
 	function setURL($u) {
 		$this->url = $u;
 	}
+    function with($namespace) {
+        if(substr($namespace, 0, 1) != "/")
+            $namespace = "/".$namespace;
+        $this->with = $namespace;
+        return $this;
+    }
+    function error($code = 200, $function = null) {
+        if(is_null($function)) {
+            if(isset($this->errors[$code]))
+                return $this->errors[$code];
+            else
+                return null;
+        }else
+            return $this->errors[$code] = $function;
+    }
 	function getMethod() {
-		return (
+		return strtoupper(
 			isset($_REQUEST["__method__"]) ? $_REQUEST["__method__"] : (
 				isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']) ? $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'] : (
 					isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET'
@@ -38,23 +69,20 @@ class router extends base {
 	}
 	function __destruct() {
         parent::__destruct();
-		if(!isset($this->routes["/\/404/"]))
-			$this->routes["/\/404/"] = ["ALL", function() {
-				echo "The requested page could not be found";
-			}];
 		$url = isset($this->url) ? $this->url : "/";
 		uksort($this->routes, function($a, $b) {
 			return strlen($a) > strlen($b) ? $a : $b;
 		});
-		foreach($this->routes as $pattern => $args) {
+		foreach($this->routes as $pattern => $array) {
 			if(preg_match($pattern, $url, $params)) {
-				if(strtoupper($args[0]) == strtoupper($this->getMethod()) || strtoupper($args[0]) == "ALL") {
-					array_shift($params);
-					return call_user_func_array($args[1], array_values($params));
-				}else
-					return call_user_func_array($this->routes["/\/404/"][1], []);
+                if(isset($array["ALL"]))
+                    $mtd = "ALL";
+                elseif(isset($array[$this->getMethod()]))
+                    $mtd = $this->getMethod();
+                array_shift($params);
+                return call_user_func_array($array[$mtd], array_values($params));
 			}
 		}
-		return call_user_func_array($this->routes["/\/404/"][1], []);
+		return call_user_func_array($this->error(404), []);
 	}
 }
