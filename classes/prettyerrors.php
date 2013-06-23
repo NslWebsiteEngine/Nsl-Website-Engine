@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__."/../vendor/autoload.php";
+include_once __DIR__.DS."..".DS."vendor".DS."autoload.php";
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\JsonResponseHandler;
 class prettyerrors extends base {
