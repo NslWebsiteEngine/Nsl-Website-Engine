@@ -1,10 +1,10 @@
 <?php
-include_once __DIR__."/../vendor/autoload.php";
+include_once __DIR__.DS."..".DS."vendor".DS."autoload.php";
 class templating extends base {
 	private $twig;
 	function __construct(&$main) {
         parent::__construct($main);
-		$this->twig = new Twig_Environment(new Twig_Loader_Filesystem(realpath('views/')), [
+		$this->twig = new Twig_Environment(new Twig_Loader_Filesystem(realpath('views'.DS)), [
 			//'cache' => '/path/to/compilation_cache'
 		]);
 	}
