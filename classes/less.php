@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__."/../vendor/autoload.php";
+include_once __DIR__.DS."..".DS."vendor".DS."autoload.php";
 class less extends base {
     function __construct(&$main) {
         parent::__construct($main);
