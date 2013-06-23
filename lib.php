@@ -11,8 +11,8 @@ class lib {
 		$this->keyword("ok");
 		$this->keyword("already_there");
 		$this->keyword("no_plugin_namespace");
-        $this->keyword("NSL Website Engine");
-        header("X-Powered-By: NSL Website Engine/#".$this->keyword("NSL Website Engine"));
+        	$this->keyword("NSL Website Engine", "0.0.1b");
+        	header("X-Powered-By: NSL Website Engine/#".$this->keyword("NSL Website Engine"));
 		$this->defaults = new stdClass;
 		$this->pluginspath = $GLOBALS["NSLWebsiteEngine/pluginspath"] = $this->defaults->pluginspath = __DIR__."/classes/";
 		$this->setpluginspath($this->pluginspath);
@@ -62,10 +62,14 @@ class lib {
 		$this->$protocol = null;
 		return $this->keyword("ok");
 	}
-	function keyword($k) {
+	function keyword($k, $v = null) {
 		if(!isset($this->__keywords__[$k])) {
-			$this->__keywords__[$k] = $this->__keywords_counter__;
-			$this->__keywords_counter__ += strlen($k);
+            if(is_null($v))
+                $this->__keywords__[$k] = $v;
+            else {
+    			$this->__keywords__[$k] = $this->__keywords_counter__;
+    			$this->__keywords_counter__ += strlen($k);
+            }
 		}
 		return dechex($this->__keywords__[$k]);
 	}
