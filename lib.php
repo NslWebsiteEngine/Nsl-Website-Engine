@@ -1,12 +1,13 @@
 <?php
 class lib {
-    protected $__keywords__;
-    protected $__keywords_counter__ = 0xF0;
-    protected $__removed = [];
-    protected $pluginspath;
-    protected $defaults;
-    protected $__usedprotocols = [];
-    function __construct() {
+    public $__keywords__;
+    public $__keywords_counter__ = 0xF0;
+    public $pluginspath;
+    public $defaults;
+    public $__usedprotocols = [];
+    public $configuration = [];
+    private $__removed = [];
+    function __construct($configurationfile = null) {
         $this->keyword("more");
         $this->keyword("ok");
         $this->keyword("already_there");
@@ -18,7 +19,21 @@ class lib {
         $this->defaults = new stdClass;
         $this->pluginspath = $GLOBALS["NSLWebsiteEngine/pluginspath"] = $this->defaults->pluginspath = __DIR__.DS."classes".DS;
         $this->setpluginspath($this->pluginspath);
+        $this->configuration = [
+            "plugins" => [],
+            "base" => [
+                "showerrors" => true
+            ],
+        ];
         include $this->pluginspath."base.php";
+        if(!is_null($configurationfile)) {
+            $this->configure($configurationfile);
+            $this->add($this->configuration["plugins"]);
+        }
+    }
+    function configure($file) {
+        $newarray = json_decode(file_get_contents($file), true);
+        return $this->configuration = array_merge($this->configuration, $newarray);
     }
     function __get($name) {
         if(!isset($this->$name)) {
@@ -76,19 +91,21 @@ class lib {
         return dechex($this->__keywords__[$k]);
     }
     function trigger_error($error = "", $editor = "") {
-        if(isset($this->prettyerrors)) {
-            if(!isset($this->__prettyobject)) {
-                $ed = $this->__prettyobject = $this->prettyerrors->setTitle()->setArgs("NSL args", [
-                    "Used Protocols" => $this->__usedprotocols,
-                    "Removed Protocols" => $this->__removed
-                ]);
-                if($editor != "")
-                    $ed->setEditor($editor);
-                $ed->register();
-            }
-            throw new RuntimeException($error);
-        }else
-            die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");
+        if($this->configuration["base"]["showerrors"]) {
+            if(isset($this->prettyerrors)) {
+                if(!isset($this->__prettyobject)) {
+                    $ed = $this->__prettyobject = $this->prettyerrors->setTitle()->setArgs("NSL args", [
+                        "Used Protocols" => $this->__usedprotocols,
+                        "Removed Protocols" => $this->__removed
+                    ]);
+                    if($editor != "")
+                        $ed->setEditor($editor);
+                    $ed->register();
+                }
+                throw new RuntimeException($error);
+            }else
+                die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");
+        }
     }
     function _add($protocol) {
         if(preg_replace("/([a-z])([A-Z])/", "$1/$2", $protocol) != $protocol)
