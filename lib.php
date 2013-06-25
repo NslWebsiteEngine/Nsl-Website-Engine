@@ -14,7 +14,7 @@
 
 class lib {
     public $__keywords__;
-    public $__keywords_counter__ = 0xF0
+    public $__keywords_counter__ = 0xF0;
     public $pluginspath;
     public $defaults; 
     public $__usedprotocols = [];
