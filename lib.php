@@ -1,9 +1,22 @@
 <?php
+
+/*
+**********************************
+*                                *
+*       NSL Website Engine       *
+*                                *
+**********************************
+* Copyright 2013 Danny Morabito, all rights reserved. 
+* You can use the NSL Website Engine without any worries, just please leave 
+* this small copyright message.
+*/
+
+
 class lib {
     public $__keywords__;
-    public $__keywords_counter__ = 0xF0;
+    public $__keywords_counter__ = 0xF0
     public $pluginspath;
-    public $defaults;
+    public $defaults; 
     public $__usedprotocols = [];
     public $configuration = [];
     private $__removed = [];
