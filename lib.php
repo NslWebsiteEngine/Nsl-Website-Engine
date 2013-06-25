@@ -7,13 +7,14 @@ class lib {
     public $__usedprotocols = [];
     public $configuration = [];
     private $__removed = [];
+    private $version = "0.0.2b";
     function __construct($configurationfile = null) {
         $this->keyword("more");
         $this->keyword("ok");
         $this->keyword("already_there");
         $this->keyword("no_plugin_namespace");
-        $this->keyword("NSL Website Engine", "0.0.1b");
-        define("NSL_Website_Engine", "0.0.1b");
+        $this->keyword("NSL Website Engine", $this->version);
+        define("NSL_Website_Engine", $this->version);
         define("DS", DIRECTORY_SEPARATOR);
         header("X-Powered-By: NSL Website Engine/#".$this->keyword("NSL Website Engine"));
         $this->defaults = new stdClass;
@@ -181,5 +182,8 @@ class lib {
             }
         }else
             return $this->keyword("no_plugin_namespace");
+    }
+    function getVersion() {
+        return $this->version;
     }
 }
