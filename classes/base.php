@@ -25,9 +25,9 @@ class base {
         function getEdits() {
         	return $this->edits;
         }
-        function configuration($keyword) {
-        	if(isset($this->main->configuration[__CLASS__][$keyword]))
-        		return $this->main->configuration[__CLASS__][$keyword];
+        function configuration($keyword, $class) {
+        	if(isset($this->main->configuration[$class][$keyword]))
+        		return $this->main->configuration[$class][$keyword];
         	return false;
         }
 	
