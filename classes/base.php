@@ -1,6 +1,6 @@
 <?php
 class base {
-    public $main;
+	public $main;
 	protected $__requirements = [];
 	public $author = "Danny Morabito";
 	public $version = "1.0.0";
@@ -20,11 +20,16 @@ class base {
 		return $this->version;
 	}
 	function returnMe() {
-		return $this;
-	}
-	function getEdits() {
-		return $this->edits;
-	}
+        	return $this;
+        }
+        function getEdits() {
+        	return $this->edits;
+        }
+        function configuration($keyword) {
+        	if(isset($this->main->configuration[__CLASS__][$keyword]))
+        		return $this->main->configuration[__CLASS__][$keyword];
+        	return false;
+        }
 	
 	function __destruct() {
 		
