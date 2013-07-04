@@ -1,6 +1,5 @@
 <?php
 class router extends base {
-    
     public $routes;
     public $errors;
     public $with;
@@ -42,6 +41,7 @@ class router extends base {
 	}
 	function setURL($u) {
 		$this->url = $u;
+        return $this;
 	}
     function with($namespace) {
         if(substr($namespace, 0, 1) != "/")
