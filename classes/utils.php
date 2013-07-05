@@ -6,8 +6,8 @@ class utils extends base {
         $json = json_decode($json);
         return json_last_error() == JSON_ERROR_NONE;
     }
-    function json_decode_file($file) {
-    	return json_decode(file_get_contents("{$file}"));
+    function json_decode_file($file, $array = false) {
+    	return json_decode(file_get_contents("{$file}"), $array);
 	}
     function usenslargs() {
         if(is_function("ini_set"))
