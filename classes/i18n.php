@@ -10,11 +10,11 @@ class i18n extends base {
         if(isset($this->languages[$language]))
             $this->main->trigger_error("The language {$language} is already loaded");
         if(is_file("languages".DS."{$language}.json")) {
-            $this->languages[$language] = $this->json_decode_file("languages".DS."{$language}.json");
+            $this->languages[$language] = $this->main->utils->json_decode_file("languages".DS."{$language}.json");
         }else{
             $tmp = current(explode("_", $language));
             if(is_file("languages".DS."{$tmp}.json"))
-                $this->languages[$language] = $this->main->json_decode_file("languages".DS."{$tmp}.json");
+                $this->languages[$language] = $this->main->utils->json_decode_file("languages".DS."{$tmp}.json");
             else
                 $this->main->trigger_error("The file {$language}.json couldn't be found");
         }
@@ -29,8 +29,8 @@ class i18n extends base {
         $this->lang = $lang;
     }
     function getTranslation($text, $args) {
-        if(isset($this->lang[$text]))
-            return $this->sprintf($this->lang[$text], $args);
+        if(isset($this->languages[$this->lang]->$text))
+            return $this->sprintf($this->languages[$this->lang]->$text, $args);
         else
             return $this->sprintf($text, $args);
     }
