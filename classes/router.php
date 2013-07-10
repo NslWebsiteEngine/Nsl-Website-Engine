@@ -12,7 +12,9 @@ class router extends base {
         $this->error(405, function() {
             echo "The requested method isn't available for the requested page.";
         });
-        $this->with = "/";
+        $this->with("/");
+        if(isset($_SERVER["PATH_INFO"]))
+            $this->setUrl($_SERVER["PATH_INFO"]);
     }
 	function route($method, $path, $function) {
 		if(substr($path, 0, strlen($this->with)) != $this->with)
