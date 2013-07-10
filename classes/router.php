@@ -51,6 +51,13 @@ class router extends base {
         $this->with = $namespace;
         return $this;
     }
+    function withfile($namespace, $file) {
+        $before = $this->with;
+        $this->with($namespace);
+        include $file;
+        $this->with($before);
+        return $this;
+    }
     function error($code = 200, $function = null) {
         if(is_null($function)) {
             if(isset($this->errors[$code]))
