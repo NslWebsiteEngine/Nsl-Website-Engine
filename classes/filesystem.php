@@ -64,4 +64,7 @@ class filesystem extends base {
         }
         return $this;
     }
+    function move($oldname, $newname) {
+        return rename($oldname, $newname);
+    }
 }
