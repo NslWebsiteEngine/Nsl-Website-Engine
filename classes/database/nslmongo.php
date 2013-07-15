@@ -1,6 +1,6 @@
 <?php 
 class nslmongo extends dbbase {
-	private $connection;
+    private $connection;
 	public $resource;
 	private $db;
     public $__requirements = ["utils"]; 
@@ -28,6 +28,11 @@ class nslmongo extends dbbase {
 				$cursor->obj = ($this->db->$table->find($args[0]));
 				return $cursor;
 			break;
+            case "one":
+            case "once":
+            case "first":
+                return $this->db->$table->findOne($args[0]);
+            break;
 			case "count":
 			case "num":
 				return $this->db->$table->count($args[0]);
