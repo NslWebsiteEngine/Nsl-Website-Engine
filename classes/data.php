@@ -3,11 +3,11 @@ class data extends base {
 	function __get($time) {
 		$time = substr($time, 1);
 		$time = time() - $time;
-		$divisors = ['year' => 31536000, 'month' => 2628000, 'day' => 86400, 'hour' => 3600, 'minute' => 60, 'second' => 1];
-		$out = [];
+		$divisors = array('year' => 31536000, 'month' => 2628000, 'day' => 86400, 'hour' => 3600, 'minute' => 60, 'second' => 1);
+		$out = array();
 		foreach($divisors as $name => $divisor) {
 			if($value = floor($time / $divisor)) {
-				if(!in_array($name, ["hour", "minute", "second"]))
+				if(!in_array($name, array("hour", "minute", "second")))
 					$out[] = "{$value} {$name}".($value == 1 ? "" : "s");
 				else
 					$out[] = "{$value} {$name}".($value == 1 ? "" : "s");
@@ -19,7 +19,7 @@ class data extends base {
 		return implode(", ", $out);	
 	}
     function sum($btime, $time, $format = "yyyy-mm-dd") {
-        $format = str_replace(["/", "."], "-", $format);
+        $format = str_replace(array("/", "."), "-", $format);
         if(is_int($time))
             return $btime + $time;
         elseif(is_string($time)) {

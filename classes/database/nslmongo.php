@@ -3,7 +3,7 @@ class nslmongo extends dbbase {
     private $connection;
 	public $resource;
 	private $db;
-    public $__requirements = ["utils"]; 
+    public $__requirements = array("utils"); 
 	function __construct(&$main, $db = "NSLWebEngineDataBase") {
 		parent::__construct($main);
 		$this->connection = new MongoClient();
@@ -76,7 +76,7 @@ class cursor {
     function __construct($main) {
         $this->main = $main;
     }
-	function sort($arr = []) {
+	function sort($arr = array()) {
 		$this->obj->sort($arr);
 		return $this;
 	}

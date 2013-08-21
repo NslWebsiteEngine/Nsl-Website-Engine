@@ -89,11 +89,11 @@ class router extends base {
                 elseif(isset($array[$this->getMethod()]))
                     $mtd = $this->getMethod();
                 else
-                    return call_user_func_array($this->error(405), []);
+                    return call_user_func_array($this->error(405), array());
                 array_shift($params);
                 return call_user_func_array($array[$mtd], array_values($params));
 			}
 		}
-		return call_user_func_array($this->error(404), []);
+		return call_user_func_array($this->error(404), array());
 	}
 }

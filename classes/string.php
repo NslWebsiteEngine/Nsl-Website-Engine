@@ -16,7 +16,7 @@ class string extends base {
 		return new string($this->main, $this->content);
 	}
 	function __call($name, $args) {
-		$allowed = [
+		$allowed = array(
 			"addcslashes" => 0,
 			"addslashes" => 0,
 			"chop" => 0,
@@ -101,7 +101,7 @@ class string extends base {
 			"preg_replace" => 2,
 			"preg_replace_callback" => 2,
 			"preg_split" => 1
-		];
+		);
 		if(isset($allowed[$name])) {
 			array_splice($args, $allowed[$name], 0, [$this->content]);
 			return $this->string_method($name, $args);

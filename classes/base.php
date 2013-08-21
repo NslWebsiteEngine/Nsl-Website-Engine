@@ -1,10 +1,10 @@
 <?php
 class base {
     public $main;
-	protected $__requirements = [];
+	protected $__requirements = array();
 	public $author = "Danny Morabito";
 	public $version = "1.0.0";
-    public $edits = [];
+    public $edits = array();
 	
 	function __construct(&$main) {
 		$this->main = &$main;

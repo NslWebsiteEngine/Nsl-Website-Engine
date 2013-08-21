@@ -4,12 +4,12 @@ class validator extends base {
 		return $password1 == $password2;   
 	}
 	function validatePassword($password, $options) {
-		$defaults = [
-			"length" => [8, 64],
+		$defaults = array(
+			"length" => array(8, 64),
 			"letter" => true,
 			"number" => true,
 			"special" => false
-		];
+		);
 		$options = array_merge($defaults, $options);
 		if(count($options["length"]) == 2) {
 			if(strlen($password) < $options["length"][0])

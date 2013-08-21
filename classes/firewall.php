@@ -1,13 +1,13 @@
 <?php
 class firewall extends base {
     
-    public $ips = [];
+    public $ips = array();
     
     function blockIp($ip = "*.*.*.*") {
         $this->ips["block"][] = $ip;
         return $this;
     }
-    function blockIps($ips = ["*.*.*.*"]) {
+    function blockIps($ips = array("*.*.*.*")) {
         foreach($ips as $ip)
             $this->blockIp($ip);
         return $this;
@@ -16,7 +16,7 @@ class firewall extends base {
         $this->ips["allow"][] = $ip;
         return $this;
     }
-    function allowIps($ips = ["*.*.*.*"]) {
+    function allowIps($ips = array("*.*.*.*")) {
         foreach($ips as $ip)
             $this->allowIp($ip);
         return $this;

@@ -1,6 +1,6 @@
 <?php
 class i18n extends base {
-    protected $__requirements = ["utils"];
+    protected $__requirements = array("utils");
     public $languages;
     function addLanguage($language) {
         $language = str_replace(chr(0), "", strtolower($language));

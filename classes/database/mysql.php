@@ -38,7 +38,7 @@ class mysql extends base {
 			case "edit":
 			case "modify":
 				$query = "UPDATE {$table} SET ";
-				$els = [];
+				$els = array();
 				foreach($data as $key => $value)
 					$els[] = "{$key} = '".$this->escape($value)."'";
 				$query .= implode(", ", $els);
@@ -54,7 +54,7 @@ class mysql extends base {
 		$this->connection = new mysqli($host, $username, $password, $database) || $this->main->trigger_error("Please check your connection data");
 		return $this;
 	}
-	function query($query, $args = []) {
+	function query($query, $args = array()) {
 		foreach($args as $key => $value)
 			$query = str_replace(
 				str_replace("ARG", $key, $this->separator),
@@ -71,7 +71,7 @@ class mysql extends base {
 	function escape($arg) {
 		return $this->connection->real_escape_string($arg);
 	}
-	function select($table, $where = null, $args = []) {
+	function select($table, $where = null, $args = array()) {
 		if(strlen($where) > 1 && !is_null($where))
 			return $this->query("SELECT * FROM {$table} WHERE {$where}", $args);
 		else
@@ -79,7 +79,7 @@ class mysql extends base {
 	}
 	function insupdate($function, $table, $data) {
 		$query = $function." {$table} SET "; 
-		$elements = [];
+		$elements = array();
 		foreach($data as $key => $value)
 			$elements[] = "{$key} = '".$this->escape($value)."'";
 		$query .= implode(", ",$elements);

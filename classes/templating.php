@@ -16,11 +16,11 @@ class templating extends base {
         else
             $this->setViews("views");
         if($this->configuration("cache", "templating"))
-            $twigconfig = [
+            $twigconfig = array(
             	'cache' => $this->configuration("cache", "templating")
-	    	];
+	    	);
         else
-            $twigconfig = [];
+            $twigconfig = array();
         $this->twig = new Twig_Environment(new Twig_Loader_Filesystem(realpath($this->views.DS), $twigconfig));
 	}
     function setIndex($file) {
@@ -31,21 +31,21 @@ class templating extends base {
         $this->views = $views;
         return $this;
     }
-	function addFilter($name, $callback, $options = []) {
+	function addFilter($name, $callback, $options = array()) {
 		$this->twig->addFilter(new Twig_SimpleFilter($name, $callback, $options));
         return $this;
 	}
-	function addFunction($name, $callback, $options = []) {
+	function addFunction($name, $callback, $options = array()) {
 		$this->twig->addFunction(new Twig_SimpleFunction($name, $callback, $options));
         return $this;
 	}
-	function render($file, $options = []) {
+	function render($file, $options = array()) {
 		if(!isset($options["filename"])) {
-			$options = array_merge($options, ["filename" => $file.".twig"]);
+			$options = array_merge($options, array("filename" => $file.".twig"));
 			return $this->twig->render($this->index, $options);
 		}else{
 			$page = $options["filename"];
-			$options = array_merge($options, ["filename" => $file.".twig"]);
+			$options = array_merge($options, array("filename" => $file.".twig"));
 			return $this->twig->render($page.".twig", $options);
 		}
 	}

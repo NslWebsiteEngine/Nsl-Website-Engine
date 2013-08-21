@@ -13,7 +13,7 @@ class oarray extends base {
 		return new oarray($this->main, $this->content);
 	}
 	function __call($name, $args) {
-		$allowed = [
+		$allowed = array(
 			"array_keys" => 0,
 			"array_values" => 0,
 			"array_merge" => 0,
@@ -81,7 +81,7 @@ class oarray extends base {
 			"uasort" => 0,
 			"uksort" => 0,
 			"usort" => 0
-		];
+		);
 		if(isset($allowed[$name])) {
 			array_splice($args, $allowed[$name], 0, [$this->content]);
 			return $this->array_method($name, $args);
