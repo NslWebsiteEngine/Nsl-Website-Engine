@@ -20,9 +20,9 @@ class lib {
 	public $__usedprotocols = array();
 	public $configuration = array();
 	private $__removed = array();
-	private $version = "0.1.0b";
+	private $version = "0.2.0b";
+	private $__composer = array();
 	function __construct($configurationfile = null) {
-		$this->keyword("more");
 		$this->keyword("ok");
 		$this->keyword("already_there");
 		$this->keyword("no_plugin_namespace");
@@ -121,6 +121,26 @@ class lib {
 				die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");
 		}
 	}
+	function generate_composer($file = false) {
+		$composer = array(
+			"name" => "newsocialifecom/websiteengine",
+			"description" => "The ultimative website engine of New Social Life",
+			"require" => $this->__composer,
+			"license" => "MIT",
+			"authors" => array(
+				array(
+					"name" => "Danny Morabito",
+					"email" => "NSL-Website-Engine@newsocialife.com"
+				)
+			),
+			"minimum-stability": "dev"
+		);
+		if($file) {
+			file_put_contents("composer.json", json_encode($composer));
+			return true;
+		}else
+			return json_encode($composer);
+	}
 	function _add($protocol) {
 		if(preg_replace("/([a-z])([A-Z])/", "$1/$2", $protocol) != $protocol)
 			return $this->_folder_add($protocol);
@@ -139,10 +159,10 @@ class lib {
 					$this->trigger_error("Unable to find {$protocol} class.");
 				$this->$protocol = new $protocol($this);
 				$this->$protocol = gettype($this->$protocol->__construct($this)) == "NULL" ? $this->$protocol : $this->$protocol->__construct($this);
-				if(isset($this->$protocol->__requirements)) {
+				if(isset($this->$protocol->__requirements))
 					$this->add($this->$protocol->__requirements);
-					return $this->keyword("more");
-				}
+				if(isset($this->$protocol->__composer_requirements))
+					$this->__composer = array_merge($this->__composer, $this->$protocol->__composer_requirements);
 				return $this->keyword("ok");
 			}
 		}

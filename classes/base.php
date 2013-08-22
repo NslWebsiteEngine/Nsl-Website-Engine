@@ -5,6 +5,7 @@ class base {
 	public $author = "Danny Morabito";
 	public $version = "1.0.0";
     public $edits = array();
+    public $__composer_requirements = array();
 	
 	function __construct(&$main) {
 		$this->main = &$main;

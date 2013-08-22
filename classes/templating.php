@@ -4,6 +4,8 @@ class templating extends base {
 	private $twig;
     public $index;
     public $views;
+    public $__requirements_composer = array("twig/twig" => "*");
+    public $version = "1.0.1";
     
 	function __construct(&$main) {
         parent::__construct($main);

@@ -3,6 +3,9 @@ include_once __DIR__.DS."..".DS."vendor".DS."autoload.php";
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\JsonResponseHandler;
 class prettyerrors extends base {
+	public $version = "1.0.1";
+	public $__composer_requirements = array("filp/whoops" => "*'");
+
     function __construct(&$main) {
         parent::__construct($main);
         $this->run = new Whoops\Run;
