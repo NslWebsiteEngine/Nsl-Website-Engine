@@ -134,7 +134,7 @@ class lib {
 					"email" => "NSL-Website-Engine@newsocialife.com"
 				)
 			),
-			"minimum-stability": "dev"
+			"minimum-stability" => "dev"
 		);
 		if($file) {
 			file_put_contents("composer.json", json_encode($composer));
