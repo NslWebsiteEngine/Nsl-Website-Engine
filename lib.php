@@ -27,6 +27,7 @@ class lib {
 		$this->keyword("already_there");
 		$this->keyword("no_plugin_namespace");
 		$this->keyword("NSL Website Engine", $this->version);
+		$this->keyword("Error");
 		define("NSL_Website_Engine", $this->version);
 		define("DS", DIRECTORY_SEPARATOR);
 		header("X-Powered-By: NSL Website Engine/#".$this->keyword("NSL Website Engine"));
@@ -159,8 +160,25 @@ class lib {
 					$this->trigger_error("Unable to find {$protocol} class.");
 				$this->$protocol = new $protocol($this);
 				$this->$protocol = gettype($this->$protocol->__construct($this)) == "NULL" ? $this->$protocol : $this->$protocol->__construct($this);
-				if(isset($this->$protocol->__requirements))
+				if(isset($this->$protocol->__requirements)) {
+					if(isset($this->$protocol->__requirements["php"])) {
+						$php_reqs = $this->$protocol->__requirements["php"];
+						unset($this->$protocol->__requirements["php"]);
+						foreach($php_reqs as $req => $value) {
+							if($req == "version") {
+								if(!version_compare(PHP_VERSION, $value, ">="))
+									$this->trigger_error("This class isn't compatible with your php version ( >= {$value} )");
+							}elseif($req == "version_max") {
+								if(!version_compare(PHP_VERSION, $value, "<="))
+									$this->trigger_error("This class isn't compatible with your php version ( <= {$value} )");
+							}else{
+								if(!function_exists($value) || !is_callable($value))
+									$this->trigger_error("PHP Function ".$value." is undefined or isn't callable");
+							}
+						}
+					}
 					$this->add($this->$protocol->__requirements);
+				}
 				if(isset($this->$protocol->__composer_requirements))
 					$this->__composer = array_merge($this->__composer, $this->$protocol->__composer_requirements);
 				return $this->keyword("ok");
