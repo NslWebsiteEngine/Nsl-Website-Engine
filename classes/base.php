@@ -19,17 +19,23 @@ class base {
 		return $this->author;
 	}
 	
-	function getVersion() {
-		if(count(explode(".", $this->version)) != 3 && substr($this->version, -1) != "b") 
-			$this->version .= ".0";
-		return $this->version;
+	function getVersion() { // major.minor[.build[.revision]]
+		list($major, $minor, $build, $revision) = explode(".", $this->version);
+		if(!!!$build)
+			return implode(".", array($major, $minor, 0));
+		if(!!!$revision)
+			return implode(".", array($major, $minor, $build));
+		return implode(".", array($major, $minor, $build, $revision));
 	}
+
     function returnMe() {
         return $this;
     }
+
     function getEdits() {
         return $this->edits;
     }
+
     function configuration($keyword, $class) {
         if(isset($this->main->configuration[$class][$keyword]))
             return $this->main->configuration[$class][$keyword];
