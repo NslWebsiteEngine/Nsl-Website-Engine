@@ -85,7 +85,7 @@ class lib {
 		if(method_exists($this->$protocol, "__removed"))
 			call_user_func([$this->$protocol, "__removed"]);
 		$this->$protocol = null;
-		return "ok";
+		return "ok";;
 	}
 	function trigger_error($error = "", $editor = "") {
 		if($this->configuration["base"]["showerrors"]) {
@@ -133,7 +133,7 @@ class lib {
 			if(isset($this->__removed[$protocol])) {
 				$this->$protocol = $this->__removed[$protocol];
 				unset($this->__removed[$protocol]);
-				return "ok"
+				return "ok";
 			} else {
 				$name = $this->pluginspath.strtolower($protocol).".php";
 				if(file_exists($name))
@@ -166,10 +166,10 @@ class lib {
 				}
 				if(isset($this->$protocol->__composer_requirements))
 					$this->__composer = array_merge($this->__composer, $this->$protocol->__composer_requirements);
-				return "ok"
+				return "ok";
 			}
 		}
-		return "already_there"
+		return "already_there";
 	}
 	function _folder_add($protocol) {
 		$original = $protocol;
@@ -190,7 +190,7 @@ class lib {
 				if(isset($this->__removed[$dirname][$protocol])) {
 					$this->$protocol = $this->__removed[$dirname][$protocol];
 					unset($this->__removed[$dirname][$protocol]);
-					return "ok"
+					return "ok";
 				} else {
 					$name = $dir.DS.strtolower($protocol).".php";
 					if(file_exists($name))
@@ -210,14 +210,14 @@ class lib {
 					if(isset($this->$dirname->$protocol->__requirements)) {
 						$this->$original = $this->$dirname->$protocol;
 						$this->add($this->$dirname->$protocol->__requirements);
-						return "more"
+						return "more";
 					}
 					$this->$original = $this->$dirname->$protocol;
-					return "ok"
+					return "ok";
 				}
 			}
 		}else
-			return "no_plugin_namespace"
+			return "no_plugin_namespace";
 	}
 	function getVersion() {
 		return $this->version;
