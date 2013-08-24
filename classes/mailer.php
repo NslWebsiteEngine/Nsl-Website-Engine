@@ -55,7 +55,10 @@ class mailer extends base {
 			$this->header("MIME-Version", "1.0");
 			$this->header("Content-Type", 'text/html; charset="UTF-8"');
 		}
-		$message_id = "<".sha1(time()).sha1(microtime(true))."@".$_SERVER["SERVER_NAME"].">";
+		if(function_exists("uniqid"))
+			$message_id = "<".sha1("NSL-Website-Engine").sha1(uniqid("NSL-Website-Engine"))."@".$_SERVER["SERVER_NAME"].">";
+		else
+			$message_id = "<".sha1(time()).sha1(microtime(true))."@".$_SERVER["SERVER_NAME"].">";
 		$subject = "=?UTF-8?B?".base64_encode($this->subject)."?=";
 		$this->header("X-Sender", $this->from);
 		$this->header("Subject", $subject);
