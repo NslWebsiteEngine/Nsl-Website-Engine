@@ -13,24 +13,17 @@
 
 
 class lib {
-	public $__keywords__;
-	public $__keywords_counter__ = 0xF0;
 	public $pluginspath;
 	public $defaults; 
 	public $__usedprotocols = array();
 	public $configuration = array();
 	private $__removed = array();
-	private $version = "0.2.0b";
+	private $version = "0.2.1b";
 	private $__composer = array();
 	function __construct($configurationfile = null) {
-		$this->keyword("ok");
-		$this->keyword("already_there");
-		$this->keyword("no_plugin_namespace");
-		$this->keyword("NSL Website Engine", $this->version);
-		$this->keyword("Error");
 		define("NSL_Website_Engine", $this->version);
 		define("DS", DIRECTORY_SEPARATOR);
-		header("X-Powered-By: NSL Website Engine/#".$this->keyword("NSL Website Engine"));
+		header("X-Powered-By: NSL Website Engine/#".$this->version);
 		$this->defaults = new stdClass;
 		$this->pluginspath = $GLOBALS["NSLWebsiteEngine/pluginspath"] = $this->defaults->pluginspath = __DIR__.DS."classes".DS;
 		$this->setpluginspath($this->pluginspath);
@@ -92,18 +85,7 @@ class lib {
 		if(method_exists($this->$protocol, "__removed"))
 			call_user_func([$this->$protocol, "__removed"]);
 		$this->$protocol = null;
-		return $this->keyword("ok");
-	}
-	function keyword($k, $v = null) {
-		if(!isset($this->__keywords__[$k])) {
-			if(is_null($v))
-				$this->__keywords__[$k] = $v;
-			else {
-				$this->__keywords__[$k] = $this->__keywords_counter__;
-				$this->__keywords_counter__ += strlen($k);
-			}
-		}
-		return dechex($this->__keywords__[$k]);
+		return "ok";
 	}
 	function trigger_error($error = "", $editor = "") {
 		if($this->configuration["base"]["showerrors"]) {
@@ -151,7 +133,7 @@ class lib {
 			if(isset($this->__removed[$protocol])) {
 				$this->$protocol = $this->__removed[$protocol];
 				unset($this->__removed[$protocol]);
-				return $this->keyword("ok");
+				return "ok"
 			} else {
 				$name = $this->pluginspath.strtolower($protocol).".php";
 				if(file_exists($name))
@@ -179,12 +161,15 @@ class lib {
 					}
 					$this->add($this->$protocol->__requirements);
 				}
+				if(isset($this->$protocol->configurable) && $this->$protocol->configurable == true) {
+
+				}
 				if(isset($this->$protocol->__composer_requirements))
 					$this->__composer = array_merge($this->__composer, $this->$protocol->__composer_requirements);
-				return $this->keyword("ok");
+				return "ok"
 			}
 		}
-		return $this->keyword("already_there");
+		return "already_there"
 	}
 	function _folder_add($protocol) {
 		$original = $protocol;
@@ -205,7 +190,7 @@ class lib {
 				if(isset($this->__removed[$dirname][$protocol])) {
 					$this->$protocol = $this->__removed[$dirname][$protocol];
 					unset($this->__removed[$dirname][$protocol]);
-					return $this->keyword("ok");
+					return "ok"
 				} else {
 					$name = $dir.DS.strtolower($protocol).".php";
 					if(file_exists($name))
@@ -225,14 +210,14 @@ class lib {
 					if(isset($this->$dirname->$protocol->__requirements)) {
 						$this->$original = $this->$dirname->$protocol;
 						$this->add($this->$dirname->$protocol->__requirements);
-						return $this->keyword("more");
+						return "more"
 					}
 					$this->$original = $this->$dirname->$protocol;
-					return $this->keyword("ok");
+					return "ok"
 				}
 			}
 		}else
-			return $this->keyword("no_plugin_namespace");
+			return "no_plugin_namespace"
 	}
 	function getVersion() {
 		return $this->version;
