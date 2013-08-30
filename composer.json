@@ -1,9 +1,7 @@
 {
     "name": "newsocialifecom/websiteengine",
     "description": "The ultimative website engine of New Social Life",
-    "require": {
-        
-    },
+    "require": [],
     "license": "MIT",
     "authors": [
         {
