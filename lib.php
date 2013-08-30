@@ -105,6 +105,10 @@ class lib {
 				die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");
 		}
 	}
+	function is_included($plugin_name, $truefalse = false) {
+		// return true and false or the choosen name
+		return isset($this->__usedprotocols[$plugin_name]) ? ($truefalse ? true : $this->__usedprotocols[$plugin_name]) : false;
+	}
 	function generate_composer($file = false) {
 		$composer = array(
 			"name" => "newsocialifecom/websiteengine",
