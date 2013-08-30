@@ -89,10 +89,16 @@ class lib {
 		return "ok";
 	}
 	function trigger_error($error = "", $editor = "") {
+		// if the error showing is enabled
 		if($this->configuration["base"]["showerrors"]) {
-			if(isset($this->prettyerrors)) {
+			// if the prettyerrors plugin is enabled
+			if($this->is_included("prettyerrors", true)) {
+				// set $prettyerrors to the name of the prettyerrors plugin
+				$prettyerrors = $this->is_included("prettyerrors");
+				// did I already send an error report?
+				// if not then setup prettyerrors plugin
 				if(!isset($this->__prettyobject)) {
-					$ed = $this->__prettyobject = $this->prettyerrors->setTitle()->setArgs("NSL args", array(
+					$ed = $this->__prettyobject = $this->$prettyerrors->setTitle()->setArgs("NSL args", array(
 						"Used Protocols" => $this->__usedprotocols,
 						"Removed Protocols" => $this->__removed
 					));
@@ -100,8 +106,10 @@ class lib {
 						$ed->setEditor($editor);
 					$ed->register();
 				}
+				// send the error to user
 				throw new RuntimeException($error);
 			}else
+				// send the error to user
 				die("<div class='nslerror'><b>NSL ERROR</b>: <i>{$error}</i></div>");
 		}
 	}
