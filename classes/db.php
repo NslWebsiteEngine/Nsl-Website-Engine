@@ -1,6 +1,5 @@
 <?php 
-include $GLOBALS["NSLWebsiteEngine/pluginspath"].DS."database".DS."base.php";
-include $GLOBALS["NSLWebsiteEngine/pluginspath"].DS."database".DS."nslmongo.php";
+include $GLOBALS["NSLWebsiteEngine/pluginspath"].DS."nslmongo.php";
 class db extends nslmongo {
 
 }

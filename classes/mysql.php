@@ -1,5 +1,5 @@
 <?php 
-class mysql extends dbbase {
+class mysql extends base {
 
 	public $separator = "%{ARG%}";
 	public $connection;

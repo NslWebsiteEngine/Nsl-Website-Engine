@@ -18,12 +18,13 @@ class lib {
 	public $__usedprotocols = array();
 	public $configuration = array();
 	private $__removed = array();
-	private $version = "0.2.1b";
+	private $version = "0.3.0b";
 	private $__composer = array();
 	function __construct($configurationfile = null) {
 		define("NSL_Website_Engine", $this->version);
 		define("DS", DIRECTORY_SEPARATOR);
 		header("X-Powered-By: NSL Website Engine/#".$this->version);
+		$GLOBALS["NSLWebsiteEngine"] = &$this; // the NSlWebsiteEngine should be accessible globally
 		$this->defaults = new stdClass;
 		$this->pluginspath = $GLOBALS["NSLWebsiteEngine/pluginspath"] = $this->defaults->pluginspath = __DIR__.DS."classes".DS;
 		$this->setpluginspath($this->pluginspath);
@@ -85,7 +86,7 @@ class lib {
 		if(method_exists($this->$protocol, "__removed"))
 			call_user_func([$this->$protocol, "__removed"]);
 		$this->$protocol = null;
-		return "ok";;
+		return "ok";
 	}
 	function trigger_error($error = "", $editor = "") {
 		if($this->configuration["base"]["showerrors"]) {
@@ -125,99 +126,91 @@ class lib {
 			return json_encode($composer);
 	}
 	function _add($protocol) {
-		if(preg_replace("/([a-z])([A-Z])/", "$1/$2", $protocol) != $protocol)
-			return $this->_folder_add($protocol);
-		$protocol = strtolower($protocol);
-		if(!isset($this->$protocol)) {
-			$this->__usedprotocols[] = $protocol;
+		// split protocol by .
+		$protocol = explode(".", strtolower($protocol));
+		// if protocol is an array containing two elements
+		if(count($protocol) == 2) {
+			// set name to the first element of the array ...
+			$name = $protocol[0];
+			// ... and protocol it'self to the second one
+			$protocol = $protocol[1];
+		}else
+			// else set the name and the protocol to have the same name
+			$protocol = $name = $protocol[0];
+		// if the plugin $protocol isn't used
+		if(!isset($this->__usedprotocols[$protocol]))
+			// set the name of the new plugin as $name in the usedprotocols array
+			$this->__usedprotocols[$protocol] = $name; 
+		// when $name isn't already used
+		if(!isset($this->$name)) {
+			// if the plugin was added but removed
 			if(isset($this->__removed[$protocol])) {
-				$this->$protocol = $this->__removed[$protocol];
+				// take back the removed protocol
+				$this->$name = $this->__removed[$protocol];
+				// remove it from the removed list
 				unset($this->__removed[$protocol]);
 				return "ok";
-			} else {
-				$name = $this->pluginspath.strtolower($protocol).".php";
-				if(file_exists($name))
-					include_once $name;
-				else
-					$this->trigger_error("Unable to find {$protocol} class.");
-				$this->$protocol = new $protocol($this);
-				$this->$protocol = gettype($this->$protocol->__construct($this)) == "NULL" ? $this->$protocol : $this->$protocol->__construct($this);
-				if(isset($this->$protocol->__requirements)) {
-					if(isset($this->$protocol->__requirements["php"])) {
-						$php_reqs = $this->$protocol->__requirements["php"];
-						unset($this->$protocol->__requirements["php"]);
+			}else{
+				// set the filename variable to the absolute path of the to-add plugin
+				$filename = $this->pluginspath.strtolower($protocol).".php";
+				// if the plugin exists
+				if(file_exists($filename))
+					// include it but check that it's not already included
+					include_once($filename);
+				else {
+					// show an error to the user
+					$this->trigger_error("Unable to find {$protocol} plugin.");
+					return "not ok";
+				}
+				// add the protocol to the variable
+				$this->$name = new $protocol($this);
+				// does it have a return value (special plugins only)? If so then set the plugin to the return value
+				$this->$name = gettype($this->$name->__construct($this)) == "NULL" ? $this->$name : $this->$name->__construct($this);
+				// does the plugin depend on other plugins?
+				if(isset($this->$name->__requirements)) {
+					// does the plugin require some specific php settings?
+					if(isset($this->$name->__requirements["php"])) {
+						// set the variable $php_reqs to the requirements it's self and then unset it
+						$php_reqs = $this->$name->__requirements["php"];
+						unset($this->$name->__requirements["php"]);
+						// go through all the requirements
 						foreach($php_reqs as $req => $value) {
-							if($req == "version") {
-								if(!version_compare(PHP_VERSION, $value, ">="))
-									$this->trigger_error("This class isn't compatible with your php version ( >= {$value} )");
+							// All the keywords should be converted to lowercase
+							$req = strtolower($req);
+							// if the user requires a specific minimum or maximum version the check it and report if necessary
+							if($req == "version" || $req == "version_min") {
+								if(!version_compare(PHP_VERSION, $value, ">=")) {
+									$this->trigger_error("The plugin {$protocol} isn't compatible with your php version ( >= {$value} )");
+									return "not ok";
+								}
 							}elseif($req == "version_max") {
-								if(!version_compare(PHP_VERSION, $value, "<="))
-									$this->trigger_error("This class isn't compatible with your php version ( <= {$value} )");
+								if(!version_compare(PHP_VERSION, $value, "<=")) {
+									$this->trigger_error("The plugin {$protocol} isn't compatible with your php version ( <= {$value} )");
+									return "not ok";
+								}
 							}else{
-								if(!function_exists($value) || !is_callable($value))
-									$this->trigger_error("PHP Function ".$value." is undefined or isn't callable");
+								// if it's not a version requirement check if the user has the required function and if not report an error
+								if(!function_exists($value) || !is_callable($value)) {
+									$this->trigger_error("The plugin {$protocol} requires the function ({$value}) which isn't enabled in your server");
+									return "not ok";
+								}
 							}
 						}
 					}
-					$this->add($this->$protocol->__requirements);
+					// add all the other requirements
+					$this->add($this->$name->__requirements);
+					// if the are some required composer packages
+					if(isset($this->$name->__composer_requirements))
+						// then add 'em to the composer packages array
+						$this->__composer = array_merge($this->__composer, $this->$name->__composer_requirements);
+					return "ok";
 				}
-				if(isset($this->$protocol->configurable) && $this->$protocol->configurable == true) {
-
-				}
-				if(isset($this->$protocol->__composer_requirements))
-					$this->__composer = array_merge($this->__composer, $this->$protocol->__composer_requirements);
-				return "ok";
 			}
+		}else{
+			// show the error
+			$this->trigger_error("The plugin name {$name} is already set, if you want to use this one, please set another name for it");
+			return "already_there";
 		}
-		return "already_there";
-	}
-	function _folder_add($protocol) {
-		$original = $protocol;
-		$protocol = preg_replace("/([a-z])([A-Z])/", "$1/$2", $protocol);
-		$protocol = strtolower($protocol);
-		$protocol = explode("/", $protocol);
-		if(is_dir($this->pluginspath.$protocol[0])) {
-			$dirname = array_shift($protocol);
-			$dir = $this->pluginspath.$dirname;
-			if(count($protocol) > 1)
-				$this->trigger_error("Sub sub level plugins are not implemented");
-			if(file_exists($dir.DS."base.php")) // every sub level can have a base.php
-				include_once $dir.DS."base.php";
-			$protocol = strtolower(array_shift($protocol));
-			if(!isset($this->$dirname->$protocol)) {
-				$this->__usedprotocols[$dirname][] = $protocol;
-				$this->__usedprotocols[] = $dirname.ucfirst(strtolower($protocol));
-				if(isset($this->__removed[$dirname][$protocol])) {
-					$this->$protocol = $this->__removed[$dirname][$protocol];
-					unset($this->__removed[$dirname][$protocol]);
-					return "ok";
-				} else {
-					$name = $dir.DS.strtolower($protocol).".php";
-					if(file_exists($name))
-						include_once $name;
-					else
-						$this->trigger_error("Unable to find {$dirname}{$protocol} class.");
-					$protocolname = $dirname.ucfirst(strtolower($protocol));
-					if(!isset($this->$dirname))
-						$this->$dirname = new stdClass;
-					if(class_exists($protocolname))
-						$this->$dirname->$protocol = new $protocolname($this);
-					else {
-						$onlyprot = strtolower(substr($protocolname, strlen($dirname)));
-						if(class_exists($onlyprot))
-							$this->$dirname->$protocol = new $onlyprot($this);
-					}
-					if(isset($this->$dirname->$protocol->__requirements)) {
-						$this->$original = $this->$dirname->$protocol;
-						$this->add($this->$dirname->$protocol->__requirements);
-						return "more";
-					}
-					$this->$original = $this->$dirname->$protocol;
-					return "ok";
-				}
-			}
-		}else
-			return "no_plugin_namespace";
 	}
 	function getVersion() {
 		return $this->version;
