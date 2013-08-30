@@ -2,10 +2,7 @@
     "name": "newsocialifecom/websiteengine",
     "description": "The ultimative website engine of New Social Life",
     "require": {
-        "twig/twig": "*",
-        "filp/whoops": "*",
-        "leafo/lessphp": "0.3.*@dev",
-	"gregwar/tex2png": "*"
+        
     },
     "license": "MIT",
     "authors": [
