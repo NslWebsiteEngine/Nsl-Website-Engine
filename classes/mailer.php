@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__.DS."..".DS."vendor".DS."autoload.php";
 class mailer extends base {
 	public $from;
 	public $from_just_mail;
