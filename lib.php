@@ -212,9 +212,15 @@ class lib {
 					// add all the other requirements
 					$this->add($this->$name->__requirements);
 					// if the are some required composer packages
-					if(isset($this->$name->__composer_requirements))
-						// then add 'em to the composer packages array
-						$this->__composer = array_merge($this->__composer, $this->$name->__composer_requirements);
+					if(isset($this->$name->__composer_requirements)) {
+						// check if more then one packages are required
+						if(is_array($this->$name->__composer_requirements))
+							// if so then merge the whole array
+							$this->__composer = array_merge($this->__composer, $this->$name->__composer_requirements);
+						else
+							// else just add the required package
+							$this->__composer[] = $this->$name->__composer_requirements;
+					}
 					return "ok";
 				}
 			}
