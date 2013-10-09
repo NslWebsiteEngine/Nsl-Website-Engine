@@ -1,6 +1,6 @@
 <?php
-include_once __DIR__.DS."..".DS."vendor".DS."autoload.php";
-class templating extends base {
+include_once __DIR__.DS."..".DS."..".DS."vendor".DS."autoload.php";
+class twig extends base {
 	private $twig;
 	public $index;
 	public $views;

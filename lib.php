@@ -11,82 +11,80 @@
 * this small copyright message.
 */
 
-
 class lib {
-	public $pluginspath;
-	public $defaults; 
-	public $__usedprotocols = array();
-	public $configuration = array();
-	private $__removed = array();
-	private $version = "0.3.0b";
-	private $__composer = array();
+	public $pluginspath; // the path where plugins are stored
+	public $defaults; // the default configuration
+	public $__usedplugin = array(); // the loaded plugins
+	public $configuration = array(); // the current configuration
+	private $version = "0.4.0b"; // the current version of the NSL-Website-Engine
 	function __construct($configurationfile = null) {
-		define("NSL_Website_Engine", $this->version);
-		define("DS", DIRECTORY_SEPARATOR);
-		header("X-Powered-By: NSL Website Engine/#".$this->version);
+		define("NSL_Website_Engine", $this->version); // the nsl website engine version should be set to a global constant
+		define("DS", DIRECTORY_SEPARATOR); // DS is just the same as DIRECTORY_SEPARATOR but it's shorter
 		$GLOBALS["NSLWebsiteEngine"] = &$this; // the NSlWebsiteEngine should be accessible globally
-		$this->defaults = new stdClass;
-		$this->pluginspath = $GLOBALS["NSLWebsiteEngine/pluginspath"] = $this->defaults->pluginspath = __DIR__.DS."classes".DS;
-		$this->setpluginspath($this->pluginspath);
-		$this->configuration = array(
+		$this->defaults = array(); // the default configuration
+		// <configure the defaults> 
+		$this->pluginspath = $GLOBALS["NSLWebsiteEngine/pluginspath"] = $this->defaults["pluginspath"] = __DIR__.DS."classes".DS;
+		$this->configuration = $this->defaults = array(
 			"plugins" => array(),
 			"base" => array(
-				"showerrors" => true
+				"showerrors" => true,
+				"expose" => true
 			),
 		);
+		// </configure>
+		// include the base plugin, standard for all the plugins
 		include $this->pluginspath."base.php";
+		// if the user gave a json configuration file
 		if(!is_null($configurationfile)) {
+			// configure the NSL-Website-Engine using it
 			$this->configure($configurationfile);
+			// add the plugins set in the configuration
 			$this->add($this->configuration["plugins"]);
 		}
+		// if the user wants to expose that he's using the NSL-Website-Engine (default)
+		if($this->configuration["base"]["expose"])
+			// ... then send an header showing that the website is programmed with the NSL-Website-Engine
+			header("X-Powered-By: NSL Website Engine/#".$this->version); 
 	}
 	function configure($file) {
-		$newarray = json_decode(file_get_contents($file), true);
-		return $this->configuration = array_merge($this->configuration, $newarray);
+		$newarray = json_decode(file_get_contents($file), true); // get the configuration from the given file and save it to newarray 
+		return $this->configuration = array_merge($this->configuration, $newarray); // merge the newarray with the configuration 
 	}
 	function __get($name) {
+		// if the plugin isn't loaded
 		if(!isset($this->$name)) {
+			// if there's a plugin with the givenname
 			if(file_exists($this->pluginspath.DS.$name.".php"))
-				$this->trigger_error("Class {$name} isn't loaded");
-		}
+				$this->trigger_error("Class {$name} isn't loaded"); // report an error
+		// if the plugin is loaded
+		}else
+			// then return the plugin
+			return $this->$name;
 	}
-	function add($protocols) {
-		if(is_array($protocols)) {
+	function add($plugins) {
+		// if the user passes an array like ["name1.plugin1", "plugin2", ...]
+		if(is_array($plugins)) {
+			// create an array of returns which contains all the plugins loaded
 			$returns = array();
-			foreach($protocols as $protocol)
-				$returns[] = $this->_add($protocol);
+			// for each plugin
+			foreach($plugins as $plugin)
+				// add the plugin and set a value in return
+				$returns[] = $this->_add($plugin);
+			// return the array of returns
 			return $returns;
-		}elseif(is_string($protocols))
-			return $this->_add($protocols);
+		// if the user passes a string like "chosenname.pluginname"
+		}elseif(is_string($plugins))
+			// add this plugin and return it
+			return $this->_add($plugins);
+		// if the user passes something else just return false
 		return false;
 	}
-	function setpluginspath($path) {
-		if(!is_dir($path))
-			$path = $this->defaults->pluginspath;
-		if(substr($path, -1) != DS)
-			$path .= DS;
-		$this->pluginspath = $path;
-		$GLOBALS["NSLWebsiteEngine".DS."pluginspath"] = $this->pluginspath;
-		return $path;
-	}
-	function set($protocol) { return $this->add($protocol); }
-	function using($protocol) { return $this->add($protocol); }
-	function protocol($protocol) {
-		$protocol = strtolower($protocol);
-		return isset($this->$protocol) ? $this->$protocol : null;
-	}
-	function destroy($protocol) {
-		if(isset($this->__removed[$protocol]))
-			$this->trigger_error("Protocol {$protocol} is already unset");
-		if(!isset($this->$protocol))
-			$this->trigger_error("The protocol {$protocol} isn't loaded");
-		$removed = $this->__removed;
-		$removed[$protocol] = $this->$protocol;
-		$this->__removed = $removed;
-		if(method_exists($this->$protocol, "__removed"))
-			call_user_func([$this->$protocol, "__removed"]);
-		$this->$protocol = null;
-		return "ok";
+	// set and using are just aliases to add()
+	function set($plugin) { return $this->add($plugin); }
+	function using($plugin) { return $this->add($plugin); }
+	// plugin is an alias to __get
+	function plugin($plugin) {
+		return $this->$plugin;
 	}
 	function trigger_error($error = "", $editor = "") {
 		// if the error showing is enabled
@@ -99,10 +97,12 @@ class lib {
 				// if not then setup prettyerrors plugin
 				if(!isset($this->__prettyobject)) {
 					$ed = $this->__prettyobject = $this->$prettyerrors->setTitle()->setArgs("NSL args", array(
-						"Used Protocols" => $this->__usedprotocols,
-						"Removed Protocols" => $this->__removed
+						"Used plugin" => $this->__usedplugin,
+						"Removed plugin" => $this->__removed
 					));
+					// if the user choose to use an editor
 					if($editor != "")
+						// then set this editor in the error reporting
 						$ed->setEditor($editor);
 					$ed->register();
 				}
@@ -115,67 +115,86 @@ class lib {
 	}
 	function is_included($plugin_name, $truefalse = false) {
 		// return true and false or the choosen name
-		return isset($this->__usedprotocols[$plugin_name]) ? ($truefalse ? true : $this->__usedprotocols[$plugin_name]) : false;
+		return isset($this->__usedplugin[$plugin_name]) ? ($truefalse ? true : $this->__usedplugin[$plugin_name]) : false;
 	}
-	function generate_composer($file = false) {
-		$composer = array(
-			"name" => "newsocialifecom/websiteengine",
-			"description" => "The ultimative website engine of New Social Life",
-			"require" => $this->__composer,
-			"license" => "MIT",
-			"authors" => array(
-				array(
-					"name" => "Danny Morabito",
-					"email" => "NSL-Website-Engine@newsocialife.com"
-				)
-			),
-			"minimum-stability" => "dev"
-		);
-		if($file) {
-			file_put_contents("composer.json", json_encode($composer));
-			return true;
-		}else
-			return json_encode($composer);
-	}
-	function _add($protocol) {
-		// split protocol by .
-		$protocol = explode(".", strtolower($protocol));
-		// if protocol is an array containing two elements
-		if(count($protocol) == 2) {
+	function _add($plugin) {
+		// split plugin by .
+		$plugin = explode(".", strtolower($plugin));
+		// if plugin is an array containing two elements
+		if(count($plugin) == 2) {
 			// set name to the first element of the array ...
-			$name = $protocol[0];
-			// ... and protocol it'self to the second one
-			$protocol = $protocol[1];
+			$name = $plugin[0];
+			// ... and plugin it'self to the second one
+			$plugin = $plugin[1];
 		}else
-			// else set the name and the protocol to have the same name
-			$protocol = $name = $protocol[0];
-		// if the plugin $protocol isn't used
-		if(!isset($this->__usedprotocols[$protocol]))
-			// set the name of the new plugin as $name in the usedprotocols array
-			$this->__usedprotocols[$protocol] = $name; 
+			// else set the name and the plugin to have the same name
+			$plugin = $name = $plugin[0];
+		// if the plugin $plugin isn't used
+		if(!isset($this->__usedplugin[$plugin]))
+			// set the name of the new plugin as $name in the usedplugin array
+			$this->__usedplugin[$plugin] = $name; 
+		// split plugin by -
+		$plugin = explode("-", $plugin);
+		// if no subplugin required
+		if(count($plugin) == 1)
+			// plugin and folderName are set to the element nr. 0
+			$plugin = $folderName = $plugin[0];
+		// if it's a subplugin
+		elseif(count($plugin) == 2) {
+			// set the folder name to the path 0 of the plugin
+			$folderName = $plugin[0];
+			// "set the plugin name to the plugin name" :P
+			$plugin = $plugin[1];
+		}else // if it's something else then
+			// just report an error
+			$this->trigger_error("This function isn't developed. If you want this function implemented, please write an issue in the <a href='https://github.com/NslWebsiteEngine/Nsl-Website-Engine/issues'>NSL-Website-Engine Issues</a> page");
 		// when $name isn't already used
 		if(!isset($this->$name)) {
 			// if the plugin was added but removed
-			if(isset($this->__removed[$protocol])) {
-				// take back the removed protocol
-				$this->$name = $this->__removed[$protocol];
+			if(isset($this->__removed[$plugin])) {
+				// take back the removed plugin
+				$this->$name = $this->__removed[$plugin];
 				// remove it from the removed list
-				unset($this->__removed[$protocol]);
+				unset($this->__removed[$plugin]);
 				return "ok";
 			}else{
+				// check if the user required a foldered plugin or not
+				if(is_dir($this->pluginspath.$folderName)) {
+					// if the user specified the subplugin name
+					if($plugin != $folderName)
+						// set the filename to the plugin to require
+						$filename = $folderName.DS.$plugin;
+					// if the user didn't
+					else {
+						// check if the subfolder has a default plugin
+						if(file_exists($this->pluginspath.$folderName.DS."default")) {
+							// set the default plugin name
+							$def_plug = file_get_contents($this->pluginspath.$folderName.DS."default");
+							// then use that file to set the plugin name
+							$filename = $folderName.DS.$def_plug;
+							// set the plugin to the default
+							$plugin = $def_plug;
+						}
+						// if there's no default plugin
+						else
+							$this->trigger_error("There's no default subplugin for this plugin and you didn't choose which one to use. What should I do?");
+					}
+				}else
+					// if not include the right file
+					$filename = $folderName;
 				// set the filename variable to the absolute path of the to-add plugin
-				$filename = $this->pluginspath.strtolower($protocol).".php";
+				$filename = $this->pluginspath.$filename.".php";
 				// if the plugin exists
 				if(file_exists($filename))
 					// include it but check that it's not already included
 					include_once($filename);
 				else {
 					// show an error to the user
-					$this->trigger_error("Unable to find {$protocol} plugin.");
+					$this->trigger_error("Unable to find {$plugin} plugin. {$filename}");
 					return "not ok";
 				}
-				// add the protocol to the variable
-				$this->$name = new $protocol($this);
+				// add the plugin to the variable
+				$this->$name = new $plugin($this);
 				// does it have a return value (special plugins only)? If so then set the plugin to the return value
 				$this->$name = gettype($this->$name->__construct($this)) == "NULL" ? $this->$name : $this->$name->__construct($this);
 				// does the plugin depend on other plugins?
@@ -192,18 +211,18 @@ class lib {
 							// if the user requires a specific minimum or maximum version the check it and report if necessary
 							if($req == "version" || $req == "version_min") {
 								if(!version_compare(PHP_VERSION, $value, ">=")) {
-									$this->trigger_error("The plugin {$protocol} isn't compatible with your php version ( >= {$value} )");
+									$this->trigger_error("The plugin {$plugin} isn't compatible with your php version ( >= {$value} )");
 									return "not ok";
 								}
 							}elseif($req == "version_max") {
 								if(!version_compare(PHP_VERSION, $value, "<=")) {
-									$this->trigger_error("The plugin {$protocol} isn't compatible with your php version ( <= {$value} )");
+									$this->trigger_error("The plugin {$plugin} isn't compatible with your php version ( <= {$value} )");
 									return "not ok";
 								}
 							}else{
 								// if it's not a version requirement check if the user has the required function and if not report an error
 								if(!function_exists($value) || !is_callable($value)) {
-									$this->trigger_error("The plugin {$protocol} requires the function ({$value}) which isn't enabled in your server");
+									$this->trigger_error("The plugin {$plugin} requires the function ({$value}) which isn't enabled in your server");
 									return "not ok";
 								}
 							}
@@ -211,16 +230,6 @@ class lib {
 					}
 					// add all the other requirements
 					$this->add($this->$name->__requirements);
-					// if the are some required composer packages
-					if(isset($this->$name->__composer_requirements)) {
-						// check if more then one packages are required
-						if(is_array($this->$name->__composer_requirements))
-							// if so then merge the whole array
-							$this->__composer = array_merge($this->__composer, $this->$name->__composer_requirements);
-						else
-							// else just add the required package
-							$this->__composer[] = $this->$name->__composer_requirements;
-					}
 					return "ok";
 				}
 			}
@@ -231,6 +240,7 @@ class lib {
 		}
 	}
 	function getVersion() {
+		// return the version of the NSL-Website-Engine
 		return $this->version;
 	}
 }

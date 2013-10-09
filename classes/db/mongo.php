@@ -1,5 +1,5 @@
 <?php 
-class nslmongo extends base {
+class db extends base {
     private $connection;
 	public $resource;
 	private $db;
