@@ -1,5 +1,5 @@
 <?php 
-class db extends base {
+class mongo extends base {
     private $connection;
 	public $resource;
 	private $db;
