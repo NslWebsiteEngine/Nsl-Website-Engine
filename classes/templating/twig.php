@@ -50,14 +50,20 @@ class twig extends base {
 		$this->twig->addFunction(new Twig_SimpleFunction($name, $callback, $options));
 		return $this;
 	}
-	function render($file, $options = array()) {
+	function render($file, $options = array(), $dottwig = true) {
 		if(!isset($options["filename"])) {
-			$options = array_merge($options, array("filename" => $file.".twig"));
+			$options = array_merge($options, array("filename" => $file.($dottwig ? ".twig" : "")));
 			return $this->twig->render($this->index, $options);
 		}else{
 			$page = $options["filename"];
-			$options = array_merge($options, array("filename" => $file.".twig"));
-			return $this->twig->render($page.".twig", $options);
+			$options = array_merge($options, array("filename" => $file.($dottwig ? ".twig" : "")));
+			return $this->twig->render($page.($dottwig ? ".twig" : ""), $options);
 		}
+	}
+	function renderString($string, $options = array()) {
+		$twig = clone $this->twig; // to be able to use defined functions 
+		$twig->setLoader(new Twig_Loader_String());
+		$output = $twig->render($string, $options);
+		return $output;
 	}
 }
