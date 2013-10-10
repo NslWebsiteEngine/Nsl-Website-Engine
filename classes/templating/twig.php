@@ -31,7 +31,7 @@ class twig extends base {
 		$lib = $this->main;
 		$i18n = $this->i18n;
 		$lib->$i18n->set($lang);
-		$this->addFunction("i18n", function($text, $args = []) use($lib, $i18n) {
+		$this->addFunction("i18n", function($text, $args = array()) use($lib, $i18n) {
 			return $lib->$i18n->getTranslation($text, $args);
 		});
 	}

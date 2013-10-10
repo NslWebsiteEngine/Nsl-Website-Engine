@@ -38,7 +38,6 @@ class nsl extends twig {
 			" %}",
 			"{% endspaceless %}"
 		], $string);
-		echo $string;
 		return parent::renderString($string, $options);
 	}
 }
