@@ -6,13 +6,14 @@ class twig extends base {
 	public $views;
 	public $__requirements_composer = array("twig/twig" => "*");
 	public $version = "1.0.1";
+	public $extension = ".twig";
 	
 	function __construct(&$main) {
 		parent::__construct($main);
 		if($this->configuration("index", "templating"))
 			$this->setIndex($this->configuration("index"), "templating");
 		else
-			$this->setIndex("index.twig");
+			$this->setIndex("index{$this->extension}");
 		if($this->configuration("views", "templating"))
 			$this->setViews($this->configuration("views", "templating"));
 		else
@@ -52,12 +53,12 @@ class twig extends base {
 	}
 	function render($file, $options = array(), $dottwig = true) {
 		if(!isset($options["filename"])) {
-			$options = array_merge($options, array("filename" => $file.($dottwig ? ".twig" : "")));
+			$options = array_merge($options, array("filename" => $file.($dottwig ? "{$this->extension}" : "")));
 			return $this->twig->render($this->index, $options);
 		}else{
 			$page = $options["filename"];
-			$options = array_merge($options, array("filename" => $file.($dottwig ? ".twig" : "")));
-			return $this->twig->render($page.($dottwig ? ".twig" : ""), $options);
+			$options = array_merge($options, array("filename" => $file.($dottwig ? "{$this->extension}" : "")));
+			return $this->twig->render($page.($dottwig ? "{$this->extension}" : ""), $options);
 		}
 	}
 	function renderString($string, $options = array()) {
